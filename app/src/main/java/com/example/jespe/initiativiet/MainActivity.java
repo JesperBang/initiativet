@@ -1,11 +1,13 @@
 package com.example.jespe.initiativiet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -66,28 +68,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.forgotpass:
-                System.out.println("Entered forgot");
-                //startActivity(new Intent(MainActivity.this,ForgotPassword.class));
-                //finish();
+                startActivity(new Intent(MainActivity.this,ForgotPassActivity.class));
+                finish();
                 break;
             case R.id.signup:
-                System.out.println("Entered signup");
                 startActivity(new Intent(MainActivity.this,SignupActivity.class));
                 finish();
                 break;
             case R.id.loginbtn:
+                //Method for hiding keyboard after submitting so the user can see snackbars easily
+                // Check if no view has focus:
+                View view = this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 //Logging in user with email and pass
                 try {
                     userlogin(EmailInp.getText().toString(), PassInp.getText().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
+
                     //Snackbar for lightweight feedback
                     Snackbar snackBar = Snackbar.make(activity_main,"Email and/or password cannot be empty",Snackbar.LENGTH_SHORT);
                     snackBar.show();
                 }
-                /*Intent intent = new Intent(MainActivity.this, ForumActivity.class);
-                startActivity(intent);
-                */
                 break;
         }
     }
@@ -102,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //Snackbar for lightweight feedback
                         Snackbar snackBar = Snackbar.make(activity_main,"Password length must be over 6",Snackbar.LENGTH_SHORT);
                         snackBar.show();
+                    }else{
+                        Snackbar snackbar = Snackbar.make(activity_main,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
+                        snackbar.show();
                     }
                 }
                 else{
@@ -110,7 +119,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
-
 }
-
