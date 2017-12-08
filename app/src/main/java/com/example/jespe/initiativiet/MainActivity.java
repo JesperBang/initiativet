@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EmailInp = (EditText) findViewById(R.id.login_email);
         PassInp  = (EditText) findViewById(R.id.login_password);
 
+        //Temporary hardcoded login info for lazy teachers/testers
+        EmailInp.setText("test@mail.com");
+        PassInp.setText("lamepassword");
 
         //TextView
         SignupBtn = (TextView) findViewById(R.id.signup);
