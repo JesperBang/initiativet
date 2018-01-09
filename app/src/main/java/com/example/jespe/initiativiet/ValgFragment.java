@@ -16,29 +16,21 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ValgFragment extends Fragment implements View.OnClickListener {
 
-    Button StatsBtn, ForumBtn, ValgBtn, LogoutBtn;
+    Button LogoutBtn;
     private FirebaseAuth auth;
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
             View v = i.inflate(R.layout.fragment_valg, container, false);
-        StatsBtn = (Button) v.findViewById(R.id.StatsButton);
-        ForumBtn = (Button) v.findViewById(R.id.ForumBtn);
-        ValgBtn = (Button) v.findViewById(R.id.ValgBtn);
+
         LogoutBtn = (Button) v.findViewById(R.id.LogoutBtn);
-
-
-        ForumBtn.setOnClickListener(this);
-        StatsBtn.setOnClickListener(this);
         LogoutBtn.setOnClickListener(this);
-
-        ValgBtn.setBackgroundColor(getResources().getColor(R.color.chosenbtn));
 
         //Firebase init
         FirebaseApp.initializeApp(getActivity());
         auth = FirebaseAuth.getInstance();
 
         //For testing
-        System.out.println(auth.getCurrentUser().getUid());
+//        System.out.println(auth.getCurrentUser().getUid());
 
     return v;
     }
@@ -46,15 +38,6 @@ public class ValgFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.StatsButton:
-                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new StatistikFragment())
-                        .addToBackStack(null).commit();
-                System.out.println("Niklas siger Niggah");
-                break;
-            case R.id.ForumBtn:
-                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ForumFragment())
-                        .addToBackStack(null).commit();
-                break;
             case R.id.LogoutBtn:
                 logout(v);
                 break;

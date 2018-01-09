@@ -5,138 +5,100 @@
     android:id="@+id/valg_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jespe.initiativiet.ValgActivity"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:context="com.example.jespe.initiativiet.ValgFragment"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
 
     <ImageButton
         android:id="@+id/uddannelse"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:background="#08ae9e"
         android:contextClickable="false"
         android:scaleType="fitStart"
         android:src="@drawable/uddannelse"
         android:textAlignment="center"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/transport"
-        tools:layout_constraintRight_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/transport"
         app:layout_constraintRight_toRightOf="@+id/transport"
+        app:layout_constraintTop_toBottomOf="@+id/transport"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/transport" />
+        tools:layout_constraintRight_creator="1" />
 
     <ImageButton
         android:id="@+id/transport"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:background="#08ae9e"
         android:contextClickable="false"
         android:scaleType="fitStart"
         android:src="@drawable/transport"
         android:textAlignment="center"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/erhverv"
-        tools:layout_constraintRight_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/erhverv"
         app:layout_constraintRight_toRightOf="@+id/erhverv"
+        app:layout_constraintTop_toBottomOf="@+id/erhverv"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/erhverv" />
+        tools:layout_constraintRight_creator="1" />
 
     <ImageButton
         android:id="@+id/erhverv"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="8dp"
         android:background="#08ae9e"
         android:contextClickable="false"
         android:scaleType="fitStart"
         android:src="@drawable/erhverv"
         android:textAlignment="center"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
-        tools:layout_constraintRight_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/button5"
         app:layout_constraintRight_toRightOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@+id/button5"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/button5" />
+        tools:layout_constraintRight_creator="1" />
 
     <ImageButton
         android:id="@+id/evior"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginStart="17dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="96dp"
         android:background="#08ae9e"
         android:contextClickable="false"
         android:scaleType="fitStart"
         android:src="@drawable/tree"
         android:text="Miljø"
         android:textAlignment="center"
-        android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/StatsButton"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <Button
-        android:id="@+id/ValgBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="#08ae9e"
-        android:text="Valg"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="16dp"
-        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/StatsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#08ae9e"
-        android:text="Statistik"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/ForumBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:background="#08ae9e"
-        android:text="Forum"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_constraintRight_creator="1" />
 
     <ImageButton
         android:id="@+id/button5"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="307dp"
+        android:layout_marginTop="8dp"
         android:background="#08ae9e"
         android:contextClickable="false"
         android:scaleType="fitStart"
         android:src="@drawable/finans"
         android:textAlignment="center"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/evior"
-        tools:layout_constraintRight_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/evior"
         app:layout_constraintRight_toRightOf="@+id/evior"
+        app:layout_constraintTop_toBottomOf="@+id/evior"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/evior" />
+        tools:layout_constraintRight_creator="1" />
 
     <Button
         android:id="@+id/LogoutBtn"

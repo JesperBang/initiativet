@@ -93,6 +93,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             case R.id.loginbtn:
                 //Method for hiding keyboard after submitting so the user can see snackbars easily
                 // Check if no view has focus:
+                Intent intent = new Intent(getActivity(),TabActivity.class);
+                startActivity(intent);
+                getActivity().finish();
                 View view = getView();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

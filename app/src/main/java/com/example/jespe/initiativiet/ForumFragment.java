@@ -20,7 +20,6 @@ public class ForumFragment extends Fragment implements View.OnClickListener, Ada
 
     FloatingActionButton fab;
     SearchView search;
-    Button ForumBtn;
     ListView debat;
 
     @Override
@@ -29,9 +28,6 @@ public class ForumFragment extends Fragment implements View.OnClickListener, Ada
         View v = i.inflate(R.layout.fragment_forum, container, false);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(this);
-        ForumBtn = (Button) v.findViewById(R.id.ForumBtn);
-
-        ForumBtn.setBackgroundColor(getResources().getColor(R.color.chosenbtn));
 
         debat = (ListView) v.findViewById(R.id.debat);
 
