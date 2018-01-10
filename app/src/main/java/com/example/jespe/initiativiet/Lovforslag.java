@@ -6,29 +6,26 @@ package com.example.jespe.initiativiet;
 
 public class Lovforslag {
 
-    String author, headline, category, description;
+    String content, title, type, tagName;
 
-    Lovforslag(String author, String headline, String category, String description) {
-        this.author = author;
-        this.headline = headline;
-        this.category = category;
-        this.description = description;
+    Lovforslag(String title, String content, String tagName, String type) {
+        //this.author = author;
+        this.title = title;
+        this.content = content;
+        this.tagName = tagName;
+        this.type = type;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getTitle() {
+        return title;
     }
 
-    public String getCategory() {
-        return category;
+    public String getContent() {
+        return content;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getType() { return type; }
 
-    public String getHeadline() {
-        return headline;
-    }
+    public String getTagName() { return tagName; }
 }
 

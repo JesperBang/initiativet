@@ -40,6 +40,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
     List<ForumEntry> sampleForumEntries;
     private DatabaseReference fb;
     private DatabaseReference forumCloudEndPoint;
+    Spinner dropdown, dropdown2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +65,13 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
 
         //Dropdown menus
         //Dropdown menu for category
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner1);
+        dropdown = (Spinner)findViewById(R.id.spinner1);
         String[] items = new String[]{"Miljø", "Finans", "Erhverv"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
         //Dropdown for debat type
-        Spinner dropdown2 = (Spinner)findViewById(R.id.spinner2);
+        dropdown2 = (Spinner)findViewById(R.id.spinner2);
         String[] items2 = new String[]{"Normal", "1on1 Debat", "squad Debat"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         dropdown2.setAdapter(adapter2);
@@ -86,7 +87,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                 snackbar = Snackbar.make(create_activity,"Change Title of post! ",Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }else{
-                sampleForumEntries = getSampleForumEntries(textfield.getText().toString(),subject.getText().toString());
+                sampleForumEntries = getSampleForumEntries(textfield.getText().toString(),subject.getText().toString(), dropdown.getSelectedItem().toString(), dropdown2.getSelectedItem().toString() );
             }
         for (ForumEntry forumEntry : sampleForumEntries) {
             String key = forumCloudEndPoint.push().getKey();
@@ -124,12 +125,14 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-        public static List<ForumEntry> getSampleForumEntries(String Content, String Title) {
+        public static List<ForumEntry> getSampleForumEntries(String Content, String Title, String Tag, String Type) {
             List<ForumEntry> journalEntries = new ArrayList<>();
             //create forum Entry
             ForumEntry FE = new ForumEntry();
             FE.setTitle(Title);
             FE.setContent(Content);
+            FE.setType(Type);
+            FE.setTagName(Tag);
             Calendar cal = GregorianCalendar.getInstance();
             FE.setDateModified(cal.getTimeInMillis());
             FE.setDateCreated(cal.getTimeInMillis());

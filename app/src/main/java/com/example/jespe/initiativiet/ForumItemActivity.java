@@ -51,8 +51,8 @@ public class ForumItemActivity extends AppCompatActivity implements View.OnClick
                     TextView author = (TextView) v.findViewById(R.id.author);
                    // headline.setText(lfs[position].getHeadline());
                    // category.setText(lfs[position].getCategory());
-                    description.setText(lfs[position].getDescription());
-                    author.setText(lfs[position].getAuthor());
+                    description.setText(lfs[position].getContent());
+                    //author.setText(lfs[position].getAuthor());
                 }
 
 

@@ -8,6 +8,7 @@ package com.example.jespe.initiativiet;
 
 public class ForumEntry {
     private String journalId;
+    private String type;
     private String title;
     private String content;
     private long dateCreated;
@@ -22,6 +23,10 @@ public class ForumEntry {
     public void setJournalId(String journalId) {
         this.journalId = journalId;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type;}
 
     public String getTitle() {
         return title;
