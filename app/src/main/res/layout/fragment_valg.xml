@@ -25,120 +25,12 @@
             android:textSize="27sp" />
 
         <ListView
-            android:layout_marginTop="20dp"
+
             android:layout_below="@id/title_category"
             android:clickable="false"
             android:id="@+id/list_category"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
-
     </RelativeLayout>
-<!--
-    <ImageButton
-        android:id="@+id/uddannelse"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="#08ae9e"
-        android:contextClickable="false"
-        android:scaleType="fitStart"
-        android:src="@drawable/uddannelse"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="@+id/transport"
-        app:layout_constraintRight_toRightOf="@+id/transport"
-        app:layout_constraintTop_toBottomOf="@+id/transport"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <ImageButton
-        android:id="@+id/transport"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="#08ae9e"
-        android:contextClickable="false"
-        android:scaleType="fitStart"
-        android:src="@drawable/transport"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="@+id/erhverv"
-        app:layout_constraintRight_toRightOf="@+id/erhverv"
-        app:layout_constraintTop_toBottomOf="@+id/erhverv"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <ImageButton
-        android:id="@+id/erhverv"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="#08ae9e"
-        android:contextClickable="false"
-        android:scaleType="fitStart"
-        android:src="@drawable/erhverv"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="@+id/button5"
-        app:layout_constraintRight_toRightOf="@+id/button5"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <ImageButton
-        android:id="@+id/evior"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="96dp"
-        android:background="#08ae9e"
-        android:contextClickable="false"
-        android:scaleType="fitStart"
-        android:src="@drawable/tree"
-        android:text="Miljø"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
-
-    <ImageButton
-        android:id="@+id/button5"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="307dp"
-        android:layout_marginTop="8dp"
-        android:background="#08ae9e"
-        android:contextClickable="false"
-        android:scaleType="fitStart"
-        android:src="@drawable/finans"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/evior"
-        app:layout_constraintRight_toRightOf="@+id/evior"
-        app:layout_constraintTop_toBottomOf="@+id/evior"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" /> -->
-
-    <Button
-        android:id="@+id/LogoutBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uddannelse" />
-
-
 </android.support.constraint.ConstraintLayout>
