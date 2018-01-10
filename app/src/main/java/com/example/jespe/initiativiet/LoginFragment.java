@@ -61,14 +61,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         auth = FirebaseAuth.getInstance();
 
         //Check session
-        if(auth.getCurrentUser() != null)
-            //startActivity(new Intent(getActivity(),ValgActivity.class));
+        if(auth.getCurrentUser() != null) {
+            startActivity(new Intent(getActivity(), TabActivity.class));
+            getActivity().finish();
+
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, new ValgFragment())
                     .addToBackStack(null)
                     .commit();
+        }
         return v;
-
     }
 
     @Override
@@ -93,9 +95,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             case R.id.loginbtn:
                 //Method for hiding keyboard after submitting so the user can see snackbars easily
                 // Check if no view has focus:
-                Intent intent = new Intent(getActivity(),TabActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+
                 View view = getView();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -132,7 +132,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     }
                 }
                 else{
-                    //startActivity(new Intent(getActivity(),ValgActivity.class));
+                    startActivity(new Intent(getActivity(),TabActivity.class));
+                    getActivity().finish();
+
                     getFragmentManager().beginTransaction()
                             .replace(R.id.fragmentContainer, new ValgFragment())
                             .addToBackStack(null)
