@@ -65,10 +65,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             startActivity(new Intent(getActivity(), TabActivity.class));
             getActivity().finish();
 
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new ValgFragment())
-                    .addToBackStack(null)
-                    .commit();
         }
         return v;
     }
@@ -93,10 +89,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                         .commit();
                 break;
             case R.id.loginbtn:
+                Intent intent = new Intent(getActivity(),TabActivity.class);
+                startActivity(intent);
                 //Method for hiding keyboard after submitting so the user can see snackbars easily
                 // Check if no view has focus:
 
-                View view = getView();
+               /* View view = getView();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -112,6 +110,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     Snackbar snackBar = Snackbar.make(activity_main,"Email and/or password cannot be empty",Snackbar.LENGTH_SHORT);
                     snackBar.show();
                 }
+                */
                 break;
         }
     }
