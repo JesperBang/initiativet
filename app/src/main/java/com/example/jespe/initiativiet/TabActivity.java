@@ -100,9 +100,9 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         tabHost.setOnTabChangedListener(this);
 
 
-        tabHost.addTab(tabHost.newTabSpec("valg").setIndicator("Valg").setContent(android.R.id.tabcontent));
-        tabHost.addTab(tabHost.newTabSpec("stat").setIndicator("Statistik").setContent(android.R.id.tabcontent));
-        tabHost.addTab(tabHost.newTabSpec("forum").setIndicator("Forum").setContent(android.R.id.tabcontent));
+        tabHost.addTab(tabHost.newTabSpec("valg").setIndicator(null, getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp)).setContent(android.R.id.tabcontent));
+        tabHost.addTab(tabHost.newTabSpec("stat").setIndicator(null, getResources().getDrawable(R.drawable.ic_poll_black_24dp)).setContent(android.R.id.tabcontent));
+        tabHost.addTab(tabHost.newTabSpec("forum").setIndicator(null,getResources().getDrawable(R.drawable.ic_forum_black_24dp)).setContent(android.R.id.tabcontent));
         System.out.print("FØR");
         tabHost.onTabChanged("valg");
         System.out.print("Efter");
@@ -174,7 +174,7 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         return true;
     }
 
-    
+
 
     @Override
     public void onTabChanged(String tabId) {

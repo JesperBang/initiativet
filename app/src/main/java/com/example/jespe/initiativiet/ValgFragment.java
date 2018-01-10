@@ -66,6 +66,13 @@ public class ValgFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
+    }
     private void logout(View v) {
         auth.signOut();
 
