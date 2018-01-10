@@ -106,12 +106,12 @@ public class ForumFragment extends Fragment implements View.OnClickListener, Ada
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new ForumItemFragment())
+        getFragmentManager().beginTransaction().replace(android.R.id.tabcontent, new ForumItemFragment())
                 .addToBackStack(null).commit();
         }
 
     public void createPost(){
-        getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new CreatePostFragment())
+        getFragmentManager().beginTransaction().replace(android.R.id.tabcontent, new CreatePostFragment())
                 .addToBackStack(null).commit();
     }
 }

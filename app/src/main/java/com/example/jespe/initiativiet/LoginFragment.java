@@ -65,10 +65,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             startActivity(new Intent(getActivity(), TabActivity.class));
             getActivity().finish();
 
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, new ValgFragment())
-                    .addToBackStack(null)
-                    .commit();
         }
         return v;
     }
@@ -112,6 +108,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     Snackbar snackBar = Snackbar.make(activity_main,"Email and/or password cannot be empty",Snackbar.LENGTH_SHORT);
                     snackBar.show();
                 }
+
                 break;
         }
     }
