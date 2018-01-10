@@ -14,9 +14,6 @@ public class StatistikFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_statistik, container, false);
 
-
-        System.out.println("Inside statistik");
-
         return v;
     }
 

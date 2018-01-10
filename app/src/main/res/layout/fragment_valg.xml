@@ -5,9 +5,7 @@
     android:id="@+id/valg_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jespe.initiativiet.ValgFragment"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context="com.example.jespe.initiativiet.ValgFragment">
 
     <RelativeLayout
         android:id="@+id/container_play"
@@ -22,10 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kategori"
-            android:textSize="27sp" />
+            android:textSize="28sp" />
 
         <ListView
-
+            android:layout_marginTop="10dp"
             android:layout_below="@id/title_category"
             android:clickable="false"
             android:id="@+id/list_category"

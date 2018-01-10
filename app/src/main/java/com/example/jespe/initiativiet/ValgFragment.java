@@ -40,7 +40,6 @@ public class ValgFragment extends Fragment{
         return v;
     }
 
-    @SuppressLint("StaticFieldLeak")
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         //Firebase init
         FirebaseApp.initializeApp(getActivity());
@@ -59,9 +58,13 @@ public class ValgFragment extends Fragment{
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                Log.e("SAMMYERTYK", String.valueOf(api.getApiCategory().size()));
-                list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
-                System.out.println(api.getApiCategory());
+
+                //Wrapper to fix NullPointerException
+                if (getActivity() != null) {
+                    Log.e("SAMMYERTYK", String.valueOf(api.getApiCategory().size()));
+                    System.out.println(api.getApiCategory().toString());
+                    list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
+                }
             }
         }.execute();
 

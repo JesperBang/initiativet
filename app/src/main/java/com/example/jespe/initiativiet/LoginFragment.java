@@ -132,10 +132,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     startActivity(new Intent(getActivity(),TabActivity.class));
                     getActivity().finish();
 
-                    getFragmentManager().beginTransaction()
+                    /*getFragmentManager().beginTransaction()
                             .replace(R.id.fragmentContainer, new ValgFragment())
                             .addToBackStack(null)
-                            .commit();
+                            .commit();*/
                 }
             }
         });

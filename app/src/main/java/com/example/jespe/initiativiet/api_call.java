@@ -40,27 +40,28 @@ import java.util.List;
  */
 
 public class api_call {
+    //init
     ArrayList<String> apiList;
     Gson gson;
     String temp;
 
+    //get api list of categories.
+    public ArrayList<String> getApiCategory(){ return apiList; }
+
+    //Constructor
     public api_call() {
         JsonDeserializer<Value> valueJsonDeserializer = new JsonDeserializer<Value>() {
             @Override
             public Value deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                 JsonObject jsonObject = json.getAsJsonObject();
-
                 try {
                     Value value = new Value(
                         jsonObject.get("id").getAsInt(),
                         jsonObject.get("kategori").getAsString(),
                         new SimpleDateFormat("yyyy-mm-dd'T'HH:mm:ss.S").parse(jsonObject.get("opdateringsdato").getAsString())
                     );
-                    //apiList.add(value.getKategori());
                     return value;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                } catch (ParseException e) {e.printStackTrace();}
                 return null;
             }
         };
@@ -68,8 +69,6 @@ public class api_call {
             .registerTypeAdapter(Value.class, valueJsonDeserializer)
             .create();
     }
-
-    public ArrayList<String> getApiCategory(){ return apiList; }
 
     public void fetchData(){
         apiList = new ArrayList<String>();
@@ -128,15 +127,8 @@ public class api_call {
 
         public int getId () {return id;}
         public void setId (int id) {this.id = id;}
-
-        public Date getOpdateringsdato() {
-            return opdateringsdato;
-        }
-
-        public void setOpdateringsdato(Date opdateringsdato) {
-            this.opdateringsdato = opdateringsdato;
-        }
-
+        public Date getOpdateringsdato() {return opdateringsdato;}
+        public void setOpdateringsdato(Date opdateringsdato) {this.opdateringsdato = opdateringsdato;}
         public String getKategori () {return kategori;}
         public void setKategori (String kategori) {this.kategori = kategori;}
     }

@@ -103,17 +103,15 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         tabHost.addTab(tabHost.newTabSpec("valg").setIndicator(null, getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp)).setContent(android.R.id.tabcontent));
         tabHost.addTab(tabHost.newTabSpec("stat").setIndicator(null, getResources().getDrawable(R.drawable.ic_poll_black_24dp)).setContent(android.R.id.tabcontent));
         tabHost.addTab(tabHost.newTabSpec("forum").setIndicator(null,getResources().getDrawable(R.drawable.ic_forum_black_24dp)).setContent(android.R.id.tabcontent));
-        System.out.print("FØR");
-        tabHost.onTabChanged("valg");
-        System.out.print("Efter");
-        //onTabChanged("valg");
+        tabHost.setCurrentTab(0);
+        tabHost.setCurrentTab(0);
     }
+
     private void iniViewPager(ViewPager viewPager){
         adapter = new SectionPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new ValgFragment(), "Valg");
         adapter.addFragment(new StatistikFragment(), "Statistik");
         adapter.addFragment(new ForumFragment(), "Forum");
-
 
         mViewPager.setAdapter(adapter);
     }
@@ -174,8 +172,6 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         return true;
     }
 
-
-
     @Override
     public void onTabChanged(String tabId) {
         if (tabId.equals("valg")) {
@@ -194,6 +190,4 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
                     .commit();
         }
     }
-
-
 }
