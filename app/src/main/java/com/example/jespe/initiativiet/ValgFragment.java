@@ -54,6 +54,7 @@ public class ValgFragment extends Fragment{
         super.onStart();
         Log.e("WHAT", "plz start me");
 
+        list_cat = (ListView) this.getActivity().findViewById(R.id.list_category);
 
         auth = FirebaseAuth.getInstance();
 
