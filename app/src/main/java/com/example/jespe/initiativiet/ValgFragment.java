@@ -39,7 +39,7 @@ public class ValgFragment extends Fragment{
 
         return v;
     }
-
+    
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         //Firebase init
         FirebaseApp.initializeApp(getActivity());
@@ -62,7 +62,6 @@ public class ValgFragment extends Fragment{
                 //Wrapper to fix NullPointerException
                 if (getActivity() != null) {
                     Log.e("SAMMYERTYK", String.valueOf(api.getApiCategory().size()));
-                    System.out.println(api.getApiCategory().toString());
                     list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
                 }
             }
@@ -75,20 +74,5 @@ public class ValgFragment extends Fragment{
                 System.out.println("clicked on:" + api.getApiCategory().get(position));
             }
         });
-    }
-
-    private void logout(View v) {
-        auth.signOut();
-
-        try {
-            if(auth.getCurrentUser() == null) {
-                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new LoginFragment())
-                        .addToBackStack(null).commit();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Snackbar snackBar = Snackbar.make(v,"User signed out",Snackbar.LENGTH_SHORT);
-        snackBar.show();
     }
 }

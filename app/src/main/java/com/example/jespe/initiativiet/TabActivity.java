@@ -30,6 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class TabActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
 
 
@@ -44,6 +46,7 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
     private ActionBar tools;
     private FragmentTabHost tabHost;
     private FrameLayout frameLayout;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -99,12 +102,10 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         */
         tabHost.setOnTabChangedListener(this);
 
-
-        tabHost.addTab(tabHost.newTabSpec("valg").setIndicator(null, getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp)).setContent(android.R.id.tabcontent));
         tabHost.addTab(tabHost.newTabSpec("stat").setIndicator(null, getResources().getDrawable(R.drawable.ic_poll_black_24dp)).setContent(android.R.id.tabcontent));
+        tabHost.addTab(tabHost.newTabSpec("valg").setIndicator(null, getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp)).setContent(android.R.id.tabcontent));
         tabHost.addTab(tabHost.newTabSpec("forum").setIndicator(null,getResources().getDrawable(R.drawable.ic_forum_black_24dp)).setContent(android.R.id.tabcontent));
-        tabHost.setCurrentTab(0);
-        tabHost.setCurrentTab(0);
+        tabHost.setCurrentTab(1);
     }
 
     private void iniViewPager(ViewPager viewPager){
@@ -164,7 +165,18 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
+            System.out.println("id: "+auth.getCurrentUser());
+            auth.signOut();
+            System.out.println(auth.getCurrentUser());
+            try {
+                if(auth.getCurrentUser() == null) {
 
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragmentContainer, new LoginFragment())
+                            .commit();
+                    finish();
+                }
+            } catch (Exception e) {e.printStackTrace();}
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
