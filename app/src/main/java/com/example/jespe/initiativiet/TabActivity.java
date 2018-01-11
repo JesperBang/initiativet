@@ -30,9 +30,10 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class TabActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
+public class TabActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     private SectionPageAdapter adapter;
@@ -52,6 +53,8 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
+
         setContentView(R.layout.activity_tab);
         frameLayout = (FrameLayout) findViewById(android.R.id.tabcontent);
 
@@ -67,54 +70,21 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-       // mViewPager = (ViewPager) findViewById(R.id.container);
-
-       // iniViewPager(mViewPager);
-        //TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
-        //tabLayout.setupWithViewPager(mViewPager);
       tabHost = (FragmentTabHost) findViewById(R.id.tab_host);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-        /*
-            TabHost.TabSpec mSpec = mTabHost.newTabSpec("First Tab");
-        mSpec.setContent(R.id.first_Tab);
-        mSpec.setIndicator("First Tab");
-        mTabHost.addTab(mSpec);
-         */
-
-        //tabHost.newTabSpec("valg").setContent(R.id.tab_valg).setIndicator("Valg");
-        /*
-        TabHost.TabSpec valgSpec = tabHost.newTabSpec("valg");
-        valgSpec.setContent(R.id.tab_valg);
-        valgSpec.setIndicator("Valg");
-        tabHost.addTab(valgSpec);
-        TabHost.TabSpec statSpec = tabHost.newTabSpec("stat");
-        statSpec.setContent(R.id.tab_stat);
-        statSpec.setIndicator("Statistik");
-        tabHost.addTab(statSpec);
-
-        TabHost.TabSpec forumSpec = tabHost.newTabSpec("forum");
-        forumSpec.setContent(R.id.tab_forum);
-        forumSpec.setIndicator("Forum");
-        tabHost.addTab(forumSpec);
-        */
-        tabHost.setOnTabChangedListener(this);
-
-        tabHost.addTab(tabHost.newTabSpec("stat").setIndicator(null, getResources().getDrawable(R.drawable.ic_poll_black_24dp)).setContent(android.R.id.tabcontent));
-        tabHost.addTab(tabHost.newTabSpec("valg").setIndicator(null, getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp)).setContent(android.R.id.tabcontent));
-        tabHost.addTab(tabHost.newTabSpec("forum").setIndicator(null,getResources().getDrawable(R.drawable.ic_forum_black_24dp)).setContent(android.R.id.tabcontent));
-        tabHost.setCurrentTab(1);
-    }
-
-    private void iniViewPager(ViewPager viewPager){
-        adapter = new SectionPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ValgFragment(), "Valg");
-        adapter.addFragment(new StatistikFragment(), "Statistik");
-        adapter.addFragment(new ForumFragment(), "Forum");
-
-        mViewPager.setAdapter(adapter);
+        tabHost.addTab(
+            tabHost.newTabSpec("valg").setIndicator(null, getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp)),
+            ValgFragment.class, null
+        );
+        tabHost.addTab(
+            tabHost.newTabSpec("stat").setIndicator(null, getResources().getDrawable(R.drawable.ic_poll_black_24dp)),
+            StatistikFragment.class, null
+        );
+        tabHost.addTab(
+            tabHost.newTabSpec("forum").setIndicator(null,getResources().getDrawable(R.drawable.ic_forum_black_24dp)),
+            ForumFragment.class, null
+        );
     }
 
     @Override
@@ -182,24 +152,5 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onTabChanged(String tabId) {
-        if (tabId.equals("valg")) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.tabcontent, new ValgFragment())
-                    .commit();
-        }
-        else if (tabId.equals("stat")) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.tabcontent, new StatistikFragment())
-                    .commit();
-        }
-        else if (tabId.equals("forum")) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.tabcontent, new ForumFragment())
-                    .commit();
-        }
     }
 }

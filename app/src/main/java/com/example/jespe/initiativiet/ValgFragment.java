@@ -42,10 +42,20 @@ public class ValgFragment extends Fragment{
     
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         //Firebase init
-        FirebaseApp.initializeApp(getActivity());
         auth = FirebaseAuth.getInstance();
+        //auth.signOut();
+        list_cat = (ListView) view.findViewById(R.id.list_category);
 
-        list_cat = (ListView) getActivity().findViewById(R.id.list_category);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("WHAT", "plz start me");
+
+
+        auth = FirebaseAuth.getInstance();
 
         new AsyncTask() {
 
@@ -61,7 +71,6 @@ public class ValgFragment extends Fragment{
 
                 //Wrapper to fix NullPointerException
                 if (getActivity() != null) {
-                    Log.e("SAMMYERTYK", String.valueOf(api.getApiCategory().size()));
                     list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
                 }
             }
