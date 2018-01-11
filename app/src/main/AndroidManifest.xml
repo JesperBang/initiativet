@@ -30,7 +30,8 @@
         <activity
             android:name=".TabActivity"
             android:label="tabActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FrameActivity" />
     </application>
 
 </manifest>

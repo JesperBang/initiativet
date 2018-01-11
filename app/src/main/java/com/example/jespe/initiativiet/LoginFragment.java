@@ -62,8 +62,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
         //Check session
         if(auth.getCurrentUser() != null) {
-            startActivity(new Intent(getActivity(), TabActivity.class));
+            startActivity(new Intent(getActivity(), FrameActivity.class));
             getActivity().finish();
+            //startActivity(new Intent(getActivity(), TabActivity.class));
+            //getActivity().finish();
 
         }
         return v;
@@ -129,7 +131,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                     }
                 }
                 else{
-                    startActivity(new Intent(getActivity(),TabActivity.class));
+                    startActivity(new Intent(getActivity(),FrameActivity.class));
                     getActivity().finish();
 
                     /*getFragmentManager().beginTransaction()

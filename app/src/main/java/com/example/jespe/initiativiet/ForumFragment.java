@@ -47,6 +47,8 @@ public class ForumFragment extends Fragment implements View.OnClickListener, Ada
                 "Test5"
         };
 
+        //ArrayAdapter aa2 = new ArrayAdapter(getActivity(), R.layout.postlist, R.id.chart, pielist);
+
         ArrayAdapter aa = new ArrayAdapter(getActivity(), R.layout.postlist, R.id.author, list){
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {

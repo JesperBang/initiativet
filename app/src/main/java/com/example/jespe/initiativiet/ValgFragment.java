@@ -46,18 +46,6 @@ public class ValgFragment extends Fragment{
         //auth.signOut();
         list_cat = (ListView) view.findViewById(R.id.list_category);
 
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.e("WHAT", "plz start me");
-
-        list_cat = (ListView) this.getActivity().findViewById(R.id.list_category);
-
-        auth = FirebaseAuth.getInstance();
-
         new AsyncTask() {
 
             @Override

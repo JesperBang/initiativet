@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,10 +34,10 @@ import android.widget.TextView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class TabActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TabActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
 
 
-    private SectionPageAdapter adapter;
+    //private SectionPageAdapter adapter;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -57,6 +58,9 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
 
         setContentView(R.layout.activity_tab);
         frameLayout = (FrameLayout) findViewById(android.R.id.tabcontent);
+
+        frameLayout.setOnTouchListener(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -152,5 +156,58 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        float pos1 = 0, pos2 = 0;
+        System.out.println("OnTouch called...");
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                System.out.println("Action Down");
+                pos1 = event.getX();
+                break;
+            }
+            case MotionEvent.ACTION_UP: {
+                System.out.println("Action Up");
+                pos2 = event.getX();
+                System.out.println("pos1: " + pos1 + " pos2: " + pos2);
+                if (pos1 < pos2) {
+                    tabSwitcher(false);
+                }
+                else if (pos1 > pos2) {
+                    tabSwitcher(true);
+                }
+                break;
+            }
+        }
+        return true;
+    }
+
+    public void tabSwitcher(boolean bool) {
+        System.out.println("tabSwitcher called...");
+        /*if (bool) { // move left
+            if (tabHost.getCurrentTab() != 2)
+            tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
+        }
+        else if (!bool) { // move right
+            if (tabHost.getCurrentTab() != 0)
+            tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+        } */
+
+        if (bool) {
+            if (tabHost.getCurrentTab() == 0)
+                tabHost.setCurrentTab(1);
+            else if (tabHost.getCurrentTab() == 1)
+                tabHost.setCurrentTab(2);
+        }
+        else if (!bool) {
+            if (tabHost.getCurrentTab() == 2)
+                tabHost.setCurrentTab(1);
+            else if (tabHost.getCurrentTab() == 1)
+                tabHost.setCurrentTab(0);
+        }
+
     }
 }
