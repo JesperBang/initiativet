@@ -42,11 +42,13 @@ import java.util.List;
 public class api_call {
     //init
     ArrayList<String> apiList;
+    ArrayList<Integer> apiCatId;
     Gson gson;
     String temp;
 
     //get api list of categories.
     public ArrayList<String> getApiCategory(){ return apiList; }
+    public ArrayList<Integer> getApiIdCategory(){ return apiCatId; }
 
     //Constructor
     public api_call() {
@@ -72,6 +74,7 @@ public class api_call {
 
     public void fetchData(){
         apiList = new ArrayList<String>();
+        apiCatId = new ArrayList<Integer>();
         new AsyncTaskRunnerVs().execute();
     }
 
@@ -91,6 +94,7 @@ public class api_call {
             for (Value value: lov.getValue()) {
                 Log.e("SAMMYERTYK", "new value: "+ value.getKategori());
                 apiList.add(value.getKategori());
+                apiCatId.add(value.getId());
             }
         }
 

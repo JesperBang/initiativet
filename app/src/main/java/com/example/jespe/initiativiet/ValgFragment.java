@@ -69,7 +69,7 @@ public class ValgFragment extends Fragment{
 
         list_cat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("clicked on:" + api.getApiCategory().get(position));
+                System.out.println("clicked on:" + api.getApiIdCategory().get(position));
             }
         });
     }
