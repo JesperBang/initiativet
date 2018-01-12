@@ -2,12 +2,15 @@ package com.example.jespe.initiativiet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class SignupFragment extends Fragment implements View.OnClickListener {
     Button RegisterBtn;
     TextView logmein,forgotpass;
     EditText EmailInp, PassInp;
@@ -30,23 +32,22 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     Snackbar snackbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+    public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
+        View v = i.inflate(R.layout.fragment_signup, container, false);
 
         //Buttons
-        RegisterBtn = (Button) findViewById(R.id.loginbtn);
+        RegisterBtn = (Button) v.findViewById(R.id.loginbtn);
 
         //TextViews
-        logmein     = (TextView) findViewById(R.id.logmein);
-        forgotpass  = (TextView) findViewById(R.id.forgotpass);
+        logmein     = (TextView) v.findViewById(R.id.logmein);
+        forgotpass  = (TextView) v.findViewById(R.id.forgotpass);
 
         //EditText
-        EmailInp    = (EditText) findViewById(R.id.EmailInp);
-        PassInp     = (EditText) findViewById(R.id.PassInp);
+        EmailInp    = (EditText) v.findViewById(R.id.EmailInp);
+        PassInp     = (EditText) v.findViewById(R.id.PassInp);
 
         //Layout
-        SignUp_Activity = (RelativeLayout) findViewById(R.id.activity_signup);
+        //SignUp_Activity = (RelativeLayout) v;//.findViewById(R.id.fragment_signup);
 
         //ActionListeners
         RegisterBtn.setOnClickListener(this);
@@ -55,25 +56,29 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
 
         //Firebase Init
         auth = FirebaseAuth.getInstance();
+
+        return v;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.logmein:
-                startActivity(new Intent(SignupActivity.this,MainActivity.class));
-                finish();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, new LoginFragment())
+                        .addToBackStack(null).commit();
                 break;
             case R.id.forgotpass:
-                startActivity(new Intent(SignupActivity.this,ForgotPassActivity.class));
-                finish();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, new ForgotPassFragment())
+                        .addToBackStack(null).commit();
                 break;
             case R.id.loginbtn:
                 //Method for hiding keyboard after submitting so the user can see snackbars easily
                 // Check if no view has focus:
-                View view = this.getCurrentFocus();
+                View view = (View) this.getView();//.getWindowToken();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
@@ -82,28 +87,34 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
+
     private void signUpUser(String email, String password) {
         auth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
                             //Error if pass is too short
-                            snackbar = Snackbar.make(SignUp_Activity,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
-                            snackbar.show();
+                            //snackbar = Snackbar.make(SignUp_Activity,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
+                            //snackbar.show();
                         }
                         else{
                             //Success message
-                            snackbar = Snackbar.make(SignUp_Activity,"Register success! ",Snackbar.LENGTH_SHORT);
-                            snackbar.show();
+                            //snackbar = Snackbar.make(SignUp_Activity,"Register success! ",Snackbar.LENGTH_SHORT);
+                            //snackbar.show();
+
 
                             //Returning user to mainpage after 3.5 seconds, so that the user has a chance to reade the snackbar info.
                             Runnable r = new Runnable() {
                                 @Override
                                 public void run() {
                                     // if you are redirecting from a fragment then use getActivity() as the context.
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                                    finish();
+                                    getFragmentManager().beginTransaction()
+                                            .replace(R.id.fragmentContainer, new LoginFragment())
+                                            .addToBackStack(null).commit();
+
+                                    //startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                    //finish();
                                 }
                             };
 
@@ -111,8 +122,12 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                             Handler h = new Handler();
                             h.postDelayed(r, 3500);
 
-                            startActivity(new Intent(SignupActivity.this,MainActivity.class));
-                            finish();
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.fragmentContainer, new LoginFragment())
+                                    .addToBackStack(null).commit();
+
+                            //startActivity(new Intent(SignupActivity.this,MainActivity.class));
+                            //finish();
                         }
                     }
                 });

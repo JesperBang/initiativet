@@ -1,7 +1,10 @@
 package com.example.jespe.initiativiet;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -10,9 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+public class ForumItemFragment extends Fragment {
 
-public class ForumItemActivity extends AppCompatActivity implements View.OnClickListener {
     ListView CommentList;
     EditText comment;
     ImageButton send;
@@ -20,14 +22,14 @@ public class ForumItemActivity extends AppCompatActivity implements View.OnClick
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forum_item);
-        CommentList = (ListView) findViewById(R.id.CommentList);
+    public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
+        View v = i.inflate(R.layout.fragment_forum_item, container, false);
+
+        CommentList = (ListView) v.findViewById(R.id.CommentList);
 
 
-        comment = (EditText) findViewById(R.id.editText);
-        send= (ImageButton) findViewById(R.id.imageButton);
+        comment = (EditText) v.findViewById(R.id.editText);
+        send= (ImageButton) v.findViewById(R.id.imageButton);
 
         comment.setText("Deltag i debatten her");
 
@@ -38,19 +40,19 @@ public class ForumItemActivity extends AppCompatActivity implements View.OnClick
                 new Lovforslag("Gustav", "test", "test", "Jeg har intet input til denne diskussion"),
                 new Lovforslag("Jesper", "test", "test", "Så længe de ikke forstyrer mig har jeg intet problem med dem")
         };
-        ArrayAdapter aa = new ArrayAdapter(this, R.layout.postlistitem, R.id.author, test){
+        ArrayAdapter aa = new ArrayAdapter(getActivity(), R.layout.postlistitem, R.id.author, test){
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {
 
                 View v = super.getView(position, cachedView, parent);
 
                 if (position != lfs.length) {
-                   // TextView headline = (TextView) v.findViewById(R.id.headline);
-                   // TextView category = (TextView) v.findViewById(R.id.category);
+                    // TextView headline = (TextView) v.findViewById(R.id.headline);
+                    // TextView category = (TextView) v.findViewById(R.id.category);
                     TextView description = (TextView) v.findViewById(R.id.description);
                     TextView author = (TextView) v.findViewById(R.id.author);
-                   // headline.setText(lfs[position].getHeadline());
-                   // category.setText(lfs[position].getCategory());
+                    // headline.setText(lfs[position].getHeadline());
+                    // category.setText(lfs[position].getCategory());
                     description.setText(lfs[position].getDescription());
                     author.setText(lfs[position].getAuthor());
                 }
@@ -62,10 +64,8 @@ public class ForumItemActivity extends AppCompatActivity implements View.OnClick
         };
         CommentList.setAdapter(aa);
 
+
+        return v;
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
 }

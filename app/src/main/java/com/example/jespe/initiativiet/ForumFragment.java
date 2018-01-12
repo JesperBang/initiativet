@@ -1,43 +1,35 @@
 package com.example.jespe.initiativiet;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-public class ForumActivity extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
+public class ForumFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     FloatingActionButton fab;
     SearchView search;
-    Button ForumBtn;
     ListView debat;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forum);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+    public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = i.inflate(R.layout.fragment_forum, container, false);
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(this);
-        ForumBtn = (Button) findViewById(R.id.ForumBtn);
 
-        ForumBtn.setBackgroundColor(getResources().getColor(R.color.chosenbtn));
-
-        debat = (ListView) findViewById(R.id.debat);
+        debat = (ListView) v.findViewById(R.id.debat);
 
         final Lovforslag[] lfs = {
                 new Lovforslag("Sammy", "Vestlige invandrer", "Integrations tekst", "Jeg mangler integration... bla bla bla"),
@@ -55,7 +47,9 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
                 "Test5"
         };
 
-        ArrayAdapter aa = new ArrayAdapter(this, R.layout.postlist, R.id.author, list){
+        //ArrayAdapter aa2 = new ArrayAdapter(getActivity(), R.layout.postlist, R.id.chart, pielist);
+
+        ArrayAdapter aa = new ArrayAdapter(getActivity(), R.layout.postlist, R.id.author, list){
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {
 
@@ -100,7 +94,7 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
         debat.setOnItemClickListener(this);
         debat.setAdapter(aa);
 
-
+        return v;
     }
 
     @Override
@@ -110,15 +104,16 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
                 createPost();
                 break;
         }
+    }
 
-    }
-    public void onItemClick(AdapterView<?> I, View v, int position, long id){
-        Intent iforumtitem = new Intent(ForumActivity.this, ForumItemActivity.class);
-        startActivity(iforumtitem);
-    }
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        getFragmentManager().beginTransaction().replace(android.R.id.tabcontent, new ForumItemFragment())
+                .addToBackStack(null).commit();
+        }
 
     public void createPost(){
-        Intent icpost = new Intent(ForumActivity.this, CreatePostActivity.class);
-        startActivity(icpost);
+        getFragmentManager().beginTransaction().replace(android.R.id.tabcontent, new CreatePostFragment())
+                .addToBackStack(null).commit();
     }
 }
