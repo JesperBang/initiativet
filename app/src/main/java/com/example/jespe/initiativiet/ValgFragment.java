@@ -46,31 +46,36 @@ public class ValgFragment extends Fragment{
         //auth.signOut();
         list_cat = (ListView) view.findViewById(R.id.list_category);
 
-        new AsyncTask() {
-
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                api.fetchData();
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-
-                //Wrapper to fix NullPointerException
-                if (getActivity() != null) {
-                    list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
-                }
-            }
-        }.execute();
-
-        System.out.println("this "+api.getApiCategory());
+        new AsyncTaskRunnerVF().execute();
 
         list_cat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("clicked on:" + api.getApiIdCategory().get(position));
             }
         });
+    }
+
+    private class AsyncTaskRunnerVF extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            api.fetchData();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+        //Wrapper to fix NullPointerException
+            if (getActivity() != null) {
+                list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {     }
+
+        @Override
+        protected void onProgressUpdate(String... text) {      }
     }
 }

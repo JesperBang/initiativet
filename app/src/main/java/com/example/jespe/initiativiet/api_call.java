@@ -46,7 +46,7 @@ public class api_call {
     Gson gson;
     String temp;
 
-    //get api list of categories.
+    //get api lists
     public ArrayList<String> getApiCategory(){ return apiList; }
     public ArrayList<Integer> getApiIdCategory(){ return apiCatId; }
 
