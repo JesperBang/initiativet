@@ -106,9 +106,6 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
                                     getChildFragmentManager().beginTransaction()
                                         .replace(R.id.frame, new ForumFragment())
                                         .commit();
-                                    // if you are redirecting from a fragment then use getActivity() as the context.
-                                    /*startActivity(new Intent(CreatePostActivity.this, ForumActivity.class));
-                                    finish();*/
                                 }
                             };
 
@@ -139,8 +136,6 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
         Calendar cal = GregorianCalendar.getInstance();
         FE.setDateModified(String.valueOf(cal.getTimeInMillis()));
         FE.setDateCreated(String.valueOf(cal.getTimeInMillis()));
-
-
         journalEntries.add(FE);
 
         return journalEntries;
@@ -156,9 +151,6 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 addInitialDataToFirebase();
-
-                //startActivity(new Intent(CreatePostActivity.this,ForumActivity.class));
-                //finish();
                 break;
         }
     }
