@@ -61,7 +61,6 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
 
         frameLayout.setOnTouchListener(this);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -74,7 +73,7 @@ public class TabActivity extends AppCompatActivity implements NavigationView.OnN
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-      tabHost = (FragmentTabHost) findViewById(R.id.tab_host);
+        tabHost = (FragmentTabHost) findViewById(R.id.tab_host);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
         tabHost.addTab(
