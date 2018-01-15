@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -36,45 +37,47 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
     ConstraintLayout create_activity;
     List<ForumEntry> sampleForumEntries;
     private DatabaseReference fb;
+    Spinner dropdown,dropdown2;
     private DatabaseReference forumCloudEndPoint;
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_create_post, container, false);
 
-        //Firebase Reference
-        fb =  FirebaseDatabase.getInstance().getReference();
-        forumCloudEndPoint = fb.child("forumentries");
-
-        //EditText
-        textfield = (EditText) v.findViewById(R.id.textfield);
-        subject = (EditText) v.findViewById(R.id.subject);
-
-        //Button
-        SubmitBtn = (Button) v.findViewById(R.id.SubmitBtn);
-
-        create_activity = (ConstraintLayout) v.findViewById(R.id.create_activity);
-
-        //Action Listener
-        SubmitBtn.setOnClickListener(this);
-
-        //Dropdown menus
-        //Dropdown menu for category
-        Spinner dropdown = (Spinner) v.findViewById(R.id.spinner1);
-        String[] items = new String[]{"Miljø", "Finans", "Erhverv"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-
-        //Dropdown for debat type
-        Spinner dropdown2 = (Spinner) v.findViewById(R.id.spinner2);
-        String[] items2 = new String[]{"Normal", "1on1 Debat", "squad Debat"};
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items2);
-        dropdown2.setAdapter(adapter2);
-
-
         return v;
     }
 
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    //Firebase Reference
+    fb =  FirebaseDatabase.getInstance().getReference();
+    forumCloudEndPoint = fb.child("forumentries");
+
+    //EditText
+    textfield = (EditText) view.findViewById(R.id.textfield);
+    subject = (EditText) view.findViewById(R.id.subject);
+
+    //Button
+    SubmitBtn = (Button) view.findViewById(R.id.SubmitBtn);
+
+    create_activity = (ConstraintLayout) view.findViewById(R.id.create_activity);
+
+    //Action Listener
+        SubmitBtn.setOnClickListener(this);
+
+    //Dropdown menus
+    //Dropdown menu for category
+    dropdown = (Spinner)view.findViewById(R.id.spinner1);
+    String[] items = new String[]{"Miljø", "Finans", "Erhverv"};
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+
+    //Dropdown for debat type
+    dropdown2 = (Spinner)view.findViewById(R.id.spinner2);
+    String[] items2 = new String[]{"Normal", "1on1 Debat", "squad Debat"};
+    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items2);
+        dropdown2.setAdapter(adapter2);
+
+}
 
     private void addInitialDataToFirebase() {
         try {
@@ -85,11 +88,10 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
                 snackbar = Snackbar.make(create_activity,"Change Title of post! ",Snackbar.LENGTH_SHORT);
                 snackbar.show();
             }else{
-                sampleForumEntries = getSampleForumEntries(textfield.getText().toString(),subject.getText().toString());
+                sampleForumEntries = getSampleForumEntries(textfield.getText().toString(),subject.getText().toString(), dropdown.getSelectedItem().toString(), dropdown2.getSelectedItem().toString() );
             }
             for (ForumEntry forumEntry : sampleForumEntries) {
                 String key = forumCloudEndPoint.push().getKey();
-                forumEntry.setJournalId(key);
                 forumCloudEndPoint.child(key).setValue(forumEntry).addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -101,12 +103,12 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
                             Runnable r = new Runnable() {
                                 @Override
                                 public void run() {
+                                    getChildFragmentManager().beginTransaction()
+                                        .replace(R.id.frame, new ForumFragment())
+                                        .commit();
                                     // if you are redirecting from a fragment then use getActivity() as the context.
-
-                                    getFragmentManager().beginTransaction()
-                                            .replace(R.id.fragmentContainer, new ForumFragment())
-                                            .commit();
-
+                                    /*startActivity(new Intent(CreatePostActivity.this, ForumActivity.class));
+                                    finish();*/
                                 }
                             };
 
@@ -126,15 +128,17 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    public static List<ForumEntry> getSampleForumEntries(String Content, String Title) {
+    public static List<ForumEntry> getSampleForumEntries(String Content, String Title, String Tag, String Type) {
         List<ForumEntry> journalEntries = new ArrayList<>();
         //create forum Entry
         ForumEntry FE = new ForumEntry();
         FE.setTitle(Title);
         FE.setContent(Content);
+        FE.setType(Type);
+        FE.setTagName(Tag);
         Calendar cal = GregorianCalendar.getInstance();
-        FE.setDateModified(cal.getTimeInMillis());
-        FE.setDateCreated(cal.getTimeInMillis());
+        FE.setDateModified(String.valueOf(cal.getTimeInMillis()));
+        FE.setDateCreated(String.valueOf(cal.getTimeInMillis()));
 
 
         journalEntries.add(FE);
@@ -148,7 +152,7 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
             case R.id.SubmitBtn:
                 View view = getActivity().getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 addInitialDataToFirebase();
