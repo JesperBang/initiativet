@@ -21,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 
@@ -68,6 +70,8 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                lfs.clear();
+
                 for ( DataSnapshot snapshot : dataSnapshot.getChildren()){
 
                     map = (Map) snapshot.getValue();
@@ -75,7 +79,8 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
                             map.get("title"),
                             map.get("content"),
                             map.get("tagName"),
-                            map.get("type")
+                            map.get("type"),
+                            snapshot.getKey()
                     ));
 
                 }
@@ -147,6 +152,7 @@ public class ForumActivity extends AppCompatActivity implements View.OnClickList
     }
     public void onItemClick(AdapterView<?> I, View v, int position, long id){
         Intent iforumtitem = new Intent(ForumActivity.this, ForumItemActivity.class);
+        iforumtitem.putExtra("Key", lfs.get(position).getKey());
         startActivity(iforumtitem);
     }
 

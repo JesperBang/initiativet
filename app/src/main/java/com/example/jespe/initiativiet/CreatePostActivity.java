@@ -91,7 +91,6 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
             }
         for (ForumEntry forumEntry : sampleForumEntries) {
             String key = forumCloudEndPoint.push().getKey();
-            forumEntry.setJournalId(key);
             forumCloudEndPoint.child(key).setValue(forumEntry).addOnCompleteListener(this, new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -134,8 +133,8 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
             FE.setType(Type);
             FE.setTagName(Tag);
             Calendar cal = GregorianCalendar.getInstance();
-            FE.setDateModified(cal.getTimeInMillis());
-            FE.setDateCreated(cal.getTimeInMillis());
+            FE.setDateModified(String.valueOf(cal.getTimeInMillis()));
+            FE.setDateCreated(String.valueOf(cal.getTimeInMillis()));
 
 
             journalEntries.add(FE);

@@ -6,15 +6,18 @@ package com.example.jespe.initiativiet;
 
 public class Lovforslag {
 
-    String content, title, type, tagName;
+    String content, title, type, tagName, key;
 
-    Lovforslag(String title, String content, String tagName, String type) {
+    Lovforslag(String title, String content, String tagName, String type, String key) {
         //this.author = author;
+        this.key = key;
         this.title = title;
         this.content = content;
         this.tagName = tagName;
         this.type = type;
     }
+
+    public String getKey() { return  key; }
 
     public String getTitle() {
         return title;
