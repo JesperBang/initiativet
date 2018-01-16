@@ -43,8 +43,26 @@ public class api_call_statistics {
     ArrayList<String> apiLovNummer;
     String tempUrl = "ppppp", inp;
 
+    class Wrapper {
+        String resultat;
+        String lovTitel;
+        String lovNummber;
+
+        public Wrapper(String resultat, String lovTitel, String lovNummber) {
+            this.resultat = resultat;
+            this.lovTitel = lovTitel;
+            this.lovNummber = lovNummber;
+        }
+    }
+
 
     //get api lists
+    public ArrayList<Wrapper> wrappers;
+
+    public ArrayList<Wrapper> getWrappers() {
+        return wrappers;
+    }
+
     public ArrayList<String> getApiLovRes(){ return apiLovResultat; }
     public ArrayList<String> getApiLovTitel(){return apiLovTitel; }
     public ArrayList<String> getApiLovNummer() { return apiLovNummer; }
@@ -55,6 +73,7 @@ public class api_call_statistics {
         apiLovResultat = new ArrayList<String>();
         apiLovTitel = new ArrayList<String>();
         apiLovNummer = new ArrayList<String>();
+        wrappers = new ArrayList<>();
 
         JsonDeserializer<Value> valueJsonDeserializer = new JsonDeserializer<Value>() {
             @Override
@@ -96,6 +115,7 @@ public class api_call_statistics {
                                 tt[4].toString().substring(0,tt[4].indexOf(" "))+","+
                                 tt[6].toString().substring(0,tt[6].indexOf(" "));
                         apiLovResultat.add(content);
+                        wrappers.add(new Wrapper(content, value.getTitel(), value.getNummer()));
                     }catch (Exception e){
                         //Cant fix folketingets api rip...
                     }

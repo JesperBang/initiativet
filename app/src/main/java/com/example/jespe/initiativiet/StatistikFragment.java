@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,59 +36,61 @@ public class StatistikFragment extends Fragment {
     ListView list_stat;
     String inp = "http://oda.ft.dk/api/Sag?$inlinecount=allpages&$filter=statusid%20eq%2011";
     ListView piechartlist;
-    ArrayList<String> lovres;
     String titel = "";
     ArrayList<PieChart> PL = new ArrayList<>();
     Float[] ydata = new Float[]{1f,2f,3f};
     String[] xdata = new String[]{"For", "Imod", "Hverken for eller imod"};
+    private ArrayAdapter aap;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        aap = new ArrayAdapter<api_call_statistics.Wrapper>(getActivity(), R.layout.stat_piechart, R.id.textView2){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View vi = super.getView(position, convertView, parent);
+                PieChart pieChart = (PieChart) vi.findViewById(R.id.piechart);
+                TextView textView = (TextView) vi.findViewById(R.id.textView2);
+                textView.setVisibility(View.GONE);
+
+                api_call_statistics.Wrapper item = this.getItem(position);
+
+                String titel = item.lovTitel;
+                String sub = item.resultat;
+                String nummer = item.lovNummber;
+
+                String[] test = sub.split(",");
+                Float for1 = Float.valueOf(Integer.parseInt(test[0]));
+                Float imod = Float.valueOf(Integer.parseInt(test[1]));
+                Float hverken = Float.valueOf(Integer.parseInt(test[2]));
+                pieChart = addDataSet(pieChart,for1,imod,hverken, titel, nummer);
+                PL.add(pieChart);
+
+                return vi;
+            }
+        };
+    }
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_statistik, container, false);
         piechartlist = (ListView) v.findViewById(R.id.piechartlist);
 
+        piechartlist.setAdapter(aap);
+
         //To stop app from fetching 2800 pages of api data once again
         //when fidgeting around with the tabs. PLEASE DO NOT REMOVE <3
-        if (api_stat.getApiLovRes().size() < 1) {
+        Log.e("stat", "inside");
+        if(api_stat.getWrappers().isEmpty()) {
             api_stat.fetchData(new Runnable() {
                 @Override
                 public void run() {
                     StatistikFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                           final ArrayList<String> titler = api_stat.getApiLovTitel();
-                           final ArrayList<String> nummere = api_stat.getApiLovNummer();
-                            lovres = api_stat.getApiLovRes();
-
-                            ArrayAdapter aap = new ArrayAdapter(getActivity(), R.layout.stat_piechart, R.id.textView2, lovres){
-                                @NonNull
-                                @Override
-                                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                    View vi = super.getView(position, convertView, parent);
-                                    PieChart pieChart = (PieChart) vi.findViewById(R.id.piechart);
-                                    TextView textView = (TextView) vi.findViewById(R.id.textView2);
-                                    textView.setVisibility(View.GONE);
-
-                                    String titel = titler.get(position);
-                                    String sub = lovres.get(position);
-                                    String nummer = nummere.get(position);
-
-                                    String[] test = sub.split(",");
-                                    Float for1 = Float.valueOf(Integer.parseInt(test[0]));
-                                    Float imod = Float.valueOf(Integer.parseInt(test[1]));
-                                    Float hverken = Float.valueOf(Integer.parseInt(test[2]));
-                                    pieChart = addDataSet(pieChart,for1,imod,hverken, titel, nummer);
-                                    PL.add(pieChart);
-
-                                    return vi;
-                                }
-                                @Override
-                                public int getCount() {
-                                    return lovres.size();
-                                }
-                            };
-                            piechartlist.setAdapter(aap);
+                            aap.addAll(api_stat.getWrappers());
                         }
                     });
                 }
