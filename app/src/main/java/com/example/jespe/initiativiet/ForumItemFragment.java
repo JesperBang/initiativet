@@ -120,8 +120,6 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                    cachedView = LayoutInflater.from(getContext()).inflate(R.layout.postlistitem, parent, false);
                }
 
-                System.out.println("insidekkk");
-                //View v = super.getView(position, cachedView, parent);
                 if (position != postedComments.size()) {
                    TextView content = (TextView) cachedView.findViewById(R.id.description);
                    content.setText(postedComments.get(position).getContent());

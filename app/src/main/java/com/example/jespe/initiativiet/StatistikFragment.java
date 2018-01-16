@@ -73,16 +73,12 @@ public class StatistikFragment extends Fragment {
                                     String sub = lovres.get(position);
                                     String nummer = nummere.get(position);
 
-                                    System.out.println("sub: "+sub + "længde" + lovres.size() + "position: "+position);
                                     String[] test = sub.split(",");
-                                    System.out.println(test[0]);
                                     Float for1 = Float.valueOf(Integer.parseInt(test[0]));
                                     Float imod = Float.valueOf(Integer.parseInt(test[1]));
                                     Float hverken = Float.valueOf(Integer.parseInt(test[2]));
-                                    System.out.println(for1 + ", "+ imod + ", " + hverken);
                                     pieChart = addDataSet(pieChart,for1,imod,hverken, titel, nummer);
                                     PL.add(pieChart);
-                                    System.out.println(""+ PL.get(position).toString());
 
                                     return vi;
                                 }
