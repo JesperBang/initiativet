@@ -103,13 +103,20 @@ public class StatistikFragment extends Fragment {
         //https://github.com/PhilJay/MPAndroidChart/
         List<PieEntry> entries = new ArrayList<>();
 
+        if(for1 != 0){
+            entries.add(new PieEntry(for1,"For"));
+        }
+        if(imod != 0){
+            entries.add(new PieEntry(imod,"Imod"));
+        }
+        if(hverken != 0){
+            entries.add(new PieEntry(hverken,"Ved ikke"));
+        }
         final Float[] ydata = {for1, imod, hverken};
-        entries.add(new PieEntry(for1,"For"));
-        entries.add(new PieEntry(imod,"Imod"));
-        entries.add(new PieEntry(hverken,"ved ikke"));
+
 
         PieDataSet pieDataSet = new PieDataSet(entries,titel);
-        pieDataSet.setSliceSpace(2);
+        pieDataSet.setSliceSpace(3);
         pieDataSet.setValueTextSize(12);
 
         ArrayList<Integer> colors = new ArrayList<>();
