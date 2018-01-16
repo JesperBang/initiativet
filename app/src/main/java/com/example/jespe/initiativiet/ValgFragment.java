@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -29,9 +30,10 @@ public class ValgFragment extends Fragment{
 
     Button LogoutBtn;
     private FirebaseAuth auth;
-    ListView list_cat;
-    ArrayList<String> al;
-    api_call api = new api_call();
+    private ListView list_cat;
+    private ArrayList<String> al;
+    private api_call api = new api_call();
+    int tmp;
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
@@ -39,43 +41,30 @@ public class ValgFragment extends Fragment{
 
         return v;
     }
-    
+
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         //Firebase init
         auth = FirebaseAuth.getInstance();
         //auth.signOut();
         list_cat = (ListView) view.findViewById(R.id.list_category);
 
-        new AsyncTaskRunnerVF().execute();
-
-        list_cat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("clicked on:" + api.getApiIdCategory().get(position));
+        api.fetchData(new Runnable() {
+            @Override
+            public void run() {
+                ValgFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
+                    }
+                });
             }
         });
-    }
 
-    private class AsyncTaskRunnerVF extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            api.fetchData();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-        //Wrapper to fix NullPointerException
-            if (getActivity() != null) {
-                list_cat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api.getApiCategory()));
+        list_cat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                System.out.println("clicked on:" + api.getApiIdCategory().get(position));
+                tmp = api.getApiIdCategory().get(position);
             }
-        }
-
-        @Override
-        protected void onPreExecute() {     }
-
-        @Override
-        protected void onProgressUpdate(String... text) {      }
+        });
     }
 }
