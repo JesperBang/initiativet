@@ -157,7 +157,7 @@ public class ForumFragment extends Fragment implements View.OnClickListener, Ada
     }
 
     public void createPost(){
-        getChildFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
             .replace(R.id.frame, new CreatePostFragment())
             .commit();
     }
