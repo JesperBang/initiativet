@@ -12,11 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class FrameActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //FrameLayout fl;
     DrawerLayout drawer;
+    LinearLayout LL;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +30,20 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_framelayout);
         //fl = (FrameLayout) findViewById(R.id.frame);
 
+        //LL = (LinearLayout) findViewById(R.id.main_content);
+
+        //LL.get
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new TabFragment())
                 .commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Initiativet");
         setSupportActionBar(toolbar);
+
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -37,12 +51,16 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -55,20 +73,12 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_logout) {
-            /*System.out.println("id: "+auth.getCurrentUser());
+            FirebaseApp.initializeApp(this);
+            auth = FirebaseAuth.getInstance();
             auth.signOut();
-            System.out.println(auth.getCurrentUser());
-            try {
-                if(auth.getCurrentUser() == null) {
-
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.fragmentContainer, new LoginFragment())
-                            .commit();
-                    finish();
-                }
-            } catch (Exception e) {e.printStackTrace();}
-        }
-        */
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame, new LoginFragment())
+                    .commit();
         }
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
