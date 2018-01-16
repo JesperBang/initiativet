@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,6 +43,7 @@ public class api_call_statistics {
 
     //get api lists
     public ArrayList<String> getApiLovRes(){ return apiLovResultat; }
+
 
     //Constructor
     public api_call_statistics() {
@@ -73,28 +76,19 @@ public class api_call_statistics {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 JsonReader reader = new JsonReader(response.body().charStream());
-                //Somehow replace odata.nextlink with odatanextLink
                 Stat lov = gson.fromJson(reader, Stat.class);
                 for (Value value: lov.getValue()) {
-                    Log.e("SAMMYERTYK", "new value: "+ value.getAfstemningskonklusion());
-                    apiLovResultat.add(value.getAfstemningskonklusion());
-                }
+                    String temp = value.getAfstemningskonklusion();
 
-                //tempUrl for next page in api.
-                tempUrl = lov.getOdatanextLink();
-
-                //Modifying url link to be usefull.
-                System.out.println("next link: "+tempUrl);
-                tempUrl = tempUrl.substring(tempUrl.lastIndexOf(":\"") + 1);
-                tempUrl = tempUrl.replace("\"","");
-
-                if (!tempUrl.contains("2800") && tempUrl != "stop"){
-                    fetchData(runnable, tempUrl);}else if(tempUrl.contains("2800")){
-                    String temps = tempUrl;
-                    tempUrl = "stop";
-                    System.out.println("Statistics api fetch data is done!");
-                    System.out.println("Statistics api fetch data is done!");
-                    fetchData(runnable, temps);
+                    try{
+                        String[] tt = temp.split("\n");
+                        String content =   tt[2].toString().substring(0,tt[2].indexOf(" "))+","+
+                                tt[4].toString().substring(0,tt[4].indexOf(" "))+","+
+                                tt[6].toString().substring(0,tt[6].indexOf(" "));
+                        apiLovResultat.add(content);
+                    }catch (Exception e){
+                        //Cant fix folketingets api rip...
+                    }
                 }
                 runnable.run();
             }
@@ -103,6 +97,7 @@ public class api_call_statistics {
 
     public class Stat {
         private String odatacount;
+        //@SerializedName("odata.nextLink")
         private String odatanextLink;
         private Value[] value;
         private String odatametadata;
