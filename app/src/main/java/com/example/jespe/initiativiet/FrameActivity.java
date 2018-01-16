@@ -1,6 +1,7 @@
 package com.example.jespe.initiativiet;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -76,12 +77,13 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
             FirebaseApp.initializeApp(this);
             auth = FirebaseAuth.getInstance();
             auth.signOut();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame, new LoginFragment())
-                    .commit();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
+
             return true;
 
     }
