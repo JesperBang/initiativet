@@ -2,6 +2,7 @@ package com.example.jespe.initiativiet;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,23 +39,31 @@ public class api_call_statistics {
     //init
     Gson gson;
     ArrayList<String> apiLovResultat;
+    ArrayList<String> apiLovTitel;
+    ArrayList<String> apiLovNummer;
     String tempUrl = "ppppp", inp;
 
 
     //get api lists
     public ArrayList<String> getApiLovRes(){ return apiLovResultat; }
+    public ArrayList<String> getApiLovTitel(){return apiLovTitel; }
+    public ArrayList<String> getApiLovNummer() { return apiLovNummer; }
 
 
     //Constructor
     public api_call_statistics() {
         apiLovResultat = new ArrayList<String>();
+        apiLovTitel = new ArrayList<String>();
+        apiLovNummer = new ArrayList<String>();
+
         JsonDeserializer<Value> valueJsonDeserializer = new JsonDeserializer<Value>() {
             @Override
             public Value deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                 JsonObject jsonObject = json.getAsJsonObject();
                     Value value = new Value(
                             jsonObject.get("titel").getAsString(),
-                            jsonObject.get("afstemningskonklusion").getAsString()
+                            jsonObject.get("afstemningskonklusion").getAsString(),
+                            jsonObject.get("nummer").getAsString()
                     );
                     return value;
             }
@@ -79,7 +88,8 @@ public class api_call_statistics {
                 Stat lov = gson.fromJson(reader, Stat.class);
                 for (Value value: lov.getValue()) {
                     String temp = value.getAfstemningskonklusion();
-
+                    apiLovTitel.add(value.getTitel());
+                    apiLovNummer.add(value.getNummer());
                     try{
                         String[] tt = temp.split("\n");
                         String content =   tt[2].toString().substring(0,tt[2].indexOf(" "))+","+
@@ -143,7 +153,8 @@ public class api_call_statistics {
         private String nummerpostfix;
         private String paragrafnummer;
 
-        public Value(String titel, String afstemningskonklusion) {
+        public Value(String titel, String afstemningskonklusion, String nummer) {
+            this.nummer = nummer;
             this.titel = titel;
             this.afstemningskonklusion = afstemningskonklusion;
         }

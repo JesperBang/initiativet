@@ -1,7 +1,9 @@
 package com.example.jespe.initiativiet;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,16 +13,39 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StatistikFragment extends Fragment {
     api_call_statistics api_stat = new api_call_statistics();
     ListView list_stat;
     String inp = "http://oda.ft.dk/api/Sag?$inlinecount=allpages&$filter=statusid%20eq%2011";
+    ListView piechartlist;
+    ArrayList<String> lovres;
+    String titel = "";
+    ArrayList<PieChart> PL = new ArrayList<>();
+    Float[] ydata = new Float[]{1f,2f,3f};
+    String[] xdata = new String[]{"For", "Imod", "Hverken for eller imod"};
+
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_statistik, container, false);
-        list_stat = (ListView) v.findViewById(R.id.list_stat);
+        piechartlist = (ListView) v.findViewById(R.id.piechartlist);
 
         //To stop app from fetching 2800 pages of api data once again
         //when fidgeting around with the tabs. PLEASE DO NOT REMOVE <3
@@ -31,7 +56,42 @@ public class StatistikFragment extends Fragment {
                     StatistikFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            list_stat.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, api_stat.getApiLovRes()));
+                           final ArrayList<String> titler = api_stat.getApiLovTitel();
+                           final ArrayList<String> nummere = api_stat.getApiLovNummer();
+                            lovres = api_stat.getApiLovRes();
+
+                            ArrayAdapter aap = new ArrayAdapter(getActivity(), R.layout.stat_piechart, R.id.textView2, lovres){
+                                @NonNull
+                                @Override
+                                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                    View vi = super.getView(position, convertView, parent);
+                                    PieChart pieChart = (PieChart) vi.findViewById(R.id.piechart);
+                                    TextView textView = (TextView) vi.findViewById(R.id.textView2);
+                                    textView.setVisibility(View.GONE);
+
+                                    String titel = titler.get(position);
+                                    String sub = lovres.get(position);
+                                    String nummer = nummere.get(position);
+
+                                    System.out.println("sub: "+sub + "længde" + lovres.size() + "position: "+position);
+                                    String[] test = sub.split(",");
+                                    System.out.println(test[0]);
+                                    Float for1 = Float.valueOf(Integer.parseInt(test[0]));
+                                    Float imod = Float.valueOf(Integer.parseInt(test[1]));
+                                    Float hverken = Float.valueOf(Integer.parseInt(test[2]));
+                                    System.out.println(for1 + ", "+ imod + ", " + hverken);
+                                    pieChart = addDataSet(pieChart,for1,imod,hverken, titel, nummer);
+                                    PL.add(pieChart);
+                                    System.out.println(""+ PL.get(position).toString());
+
+                                    return vi;
+                                }
+                                @Override
+                                public int getCount() {
+                                    return lovres.size();
+                                }
+                            };
+                            piechartlist.setAdapter(aap);
                         }
                     });
                 }
@@ -42,5 +102,66 @@ public class StatistikFragment extends Fragment {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+    }
+    private PieChart addDataSet(PieChart pieChart, Float for1, Float imod, Float hverken,String titel, String nummer) {
+        //https://github.com/PhilJay/MPAndroidChart/
+        List<PieEntry> entries = new ArrayList<>();
+
+        final Float[] ydata = {for1, imod, hverken};
+        entries.add(new PieEntry(for1,"For"));
+        entries.add(new PieEntry(imod,"Imod"));
+        entries.add(new PieEntry(hverken,"ved ikke"));
+
+        PieDataSet pieDataSet = new PieDataSet(entries,titel);
+        pieDataSet.setSliceSpace(2);
+        pieDataSet.setValueTextSize(12);
+
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.GREEN);
+        colors.add(Color.RED);
+        colors.add(Color.GRAY);
+
+        pieDataSet.setColors(colors);
+
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
+
+        pieChart.setNoDataText("Data mangler, refresh side");
+        pieChart.setCenterText(nummer);
+        pieChart.setCenterTextSize(27);
+        pieChart.setHoleColor(250);
+        pieChart.setDrawSliceText(false);
+        pieChart.setHoleRadius(40);
+        pieChart.setTransparentCircleRadius(45);
+        pieChart.setTransparentCircleAlpha(50);
+        pieChart.animateX(1000);
+        pieChart.animateY(1000);
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+
+        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                int position = e.toString().indexOf("(sum): ");
+                String votes = e.toString().substring(position + 7);
+
+                for(int i = 0; i < ydata.length; i++){
+                    if(ydata[i] == Float.parseFloat(votes)){
+                        position = i;
+                        break;
+                    }
+                }
+                String votesAnswer = xdata[position];
+                Toast.makeText(getActivity(), "" + votesAnswer + ": \n" + votes, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
+        return pieChart;
     }
 }
