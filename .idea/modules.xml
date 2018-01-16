@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Initiativiet2.iml" filepath="$PROJECT_DIR$/Initiativiet2.iml" />
       <module fileurl="file://C:\Users\jespe\AndroidWD\initiativet\Initiativiet2.iml" filepath="C:\Users\jespe\AndroidWD\initiativet\Initiativiet2.iml" />
       <module fileurl="file://C:\Users\jonathan\AndroidStudioProjects\initiativet\Initiativiet2.iml" filepath="C:\Users\jonathan\AndroidStudioProjects\initiativet\Initiativiet2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/initiativet.iml" filepath="$PROJECT_DIR$/initiativet.iml" />
       <module fileurl="file://C:\Users\jespe\AndroidStudioProjects\Initiativiet2\initiativet.iml" filepath="C:\Users\jespe\AndroidStudioProjects\Initiativiet2\initiativet.iml" />
     </modules>
   </component>

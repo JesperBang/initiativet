@@ -18,27 +18,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by jespe on 11-Jan-18.
  */
 
 public class api_call_statistics {
+
     //init
     Gson gson;
-    String temp;
     ArrayList<String> apiLovResultat;
-    String inputLine, inp;
-    URL ft_api;
-    int skip;
-    String tempUrl = "ppppp";
-    Stat lov;
+    String tempUrl = "ppppp", inp;
+
 
     //get api lists
     public ArrayList<String> getApiLovRes(){ return apiLovResultat; }
@@ -62,48 +61,44 @@ public class api_call_statistics {
                 .create();
     }
 
-    public void fetchData(String inp){
+    public void fetchData(final Runnable runnable, String inp){
         this.inp = inp;
-        new AsyncTaskRunnerVs().execute();
-    }
 
-    private class AsyncTaskRunnerVs extends AsyncTask<String, String, String> {
+        getUrlData(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
-        @Override
-        protected String doInBackground(String... params) {
-            inputLine = "";
-            getUrlData(inp);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            JsonReader reader = new JsonReader(new StringReader(temp));
-
-            try{ lov = gson.fromJson(reader, Stat.class);} catch(JsonSyntaxException e){}
-
-            for (Value value: lov.getValue()) {
-                apiLovResultat.add(value.getAfstemningskonklusion());
             }
-            temp = "";
-            try {reader.close(); } catch (IOException e) {}
 
-            if (!tempUrl.contains("2800") && tempUrl != "stop"){
-                fetchData(tempUrl);}else if(tempUrl.contains("2800")){
-                String temps = tempUrl;
-                tempUrl = "stop";
-                System.out.println("Statistics api fetch data is done!");
-                System.out.println("Statistics api fetch data is done!");
-                fetchData(temps);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                JsonReader reader = new JsonReader(response.body().charStream());
+                //Somehow replace odata.nextlink with odatanextLink
+                Stat lov = gson.fromJson(reader, Stat.class);
+                for (Value value: lov.getValue()) {
+                    Log.e("SAMMYERTYK", "new value: "+ value.getAfstemningskonklusion());
+                    apiLovResultat.add(value.getAfstemningskonklusion());
+                }
+
+                //tempUrl for next page in api.
+                tempUrl = lov.getOdatanextLink();
+
+                //Modifying url link to be usefull.
+                System.out.println("next link: "+tempUrl);
+                tempUrl = tempUrl.substring(tempUrl.lastIndexOf(":\"") + 1);
+                tempUrl = tempUrl.replace("\"","");
+
+                if (!tempUrl.contains("2800") && tempUrl != "stop"){
+                    fetchData(runnable, tempUrl);}else if(tempUrl.contains("2800")){
+                    String temps = tempUrl;
+                    tempUrl = "stop";
+                    System.out.println("Statistics api fetch data is done!");
+                    System.out.println("Statistics api fetch data is done!");
+                    fetchData(runnable, temps);
+                }
+                runnable.run();
             }
-        }
-
-        @Override
-        protected void onPreExecute() {     }
-
-        @Override
-        protected void onProgressUpdate(String... text) {      }
+        }, inp);
     }
 
     public class Stat {
@@ -218,29 +213,13 @@ public class api_call_statistics {
         public void setParagrafnummer (String paragrafnummer) {this.paragrafnummer = paragrafnummer;}
     }
 
-    public void getUrlData(String url){
-        try {
-            ft_api = new URL(url);
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                            ft_api.openStream()));
+    public void getUrlData(Callback callback, String urlin){
+        OkHttpClient client = new OkHttpClient();
 
-            while ((inputLine = in.readLine()) != null) {
-                temp += inputLine + "\n";
+        Request request = new Request.Builder()
+                .url(urlin)
+                .build();
 
-                if (inputLine.contains("nextLink")) {
-                    tempUrl = inputLine.substring(inputLine.lastIndexOf(":\"") + 1);
-                    tempUrl = tempUrl.replace("\"","");
-                }
-            }
-
-            in.close();
-        }catch (Exception e){}
-
-        temp = temp.replaceFirst("null", "");
-        temp = temp.replace("null", "\"\"");
-        temp = temp.replace("odata.metadata", "odatametadata");
-        temp = temp.replace("odata.count", "odatacount");
-        temp = temp.replace("odata.nextLink", "odatanextLink");
+        client.newCall(request).enqueue(callback);
     }
 }
