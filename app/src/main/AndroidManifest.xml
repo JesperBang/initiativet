@@ -31,7 +31,10 @@
             android:name=".TabActivity"
             android:label="tabActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FrameActivity" />
+        <activity android:name=".FrameActivity"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
     </application>
 
 </manifest>

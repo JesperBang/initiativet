@@ -14,4 +14,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_tab_test">TabTest</string>
     <string name="title_activity_tab_test2">TabTest2</string>
+
+    <string name="spinner1">Vælg kategori</string>
+    <string name="spinner2">Vælg type</string>
 </resources>
