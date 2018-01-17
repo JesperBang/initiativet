@@ -14,11 +14,11 @@ public class ForumEntry {
     private String dateModified;
     private String tagId;
     private String tagName;
-    private String commentsKey;
+    private String authorID;
 
-    public String getCommentsKey() { return  commentsKey; };
+    public String getAuthorID() { return  authorID; };
 
-    public void setCommentsKey(String commentsKey) { this.commentsKey = commentsKey; }
+    public void setAuthorID(String authorID) { this.authorID = authorID; }
 
     public String getType() { return type; }
 
