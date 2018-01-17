@@ -83,7 +83,7 @@ public class ValgFragment extends Fragment{
         for (int i = 0; i < api.getApiLovHeader().size(); i++){
             ArrayList<String> temp = new ArrayList<String>();
 
-            temp.add("nummer: "+
+            temp.add("Nummer: "+
                     api.getApiLovNummer().get(i)+"\n\n"+
                     "Resume:\n"+
                     api.getApiLovResume().get(i)
