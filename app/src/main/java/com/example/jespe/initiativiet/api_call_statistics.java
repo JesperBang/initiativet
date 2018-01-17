@@ -55,7 +55,6 @@ public class api_call_statistics {
         }
     }
 
-
     //get api lists
     public ArrayList<Wrapper> wrappers;
 

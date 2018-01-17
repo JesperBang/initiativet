@@ -50,7 +50,7 @@ public class api_call {
     ArrayList<String> apiList;
     ArrayList<Integer> apiCatId;
     Gson gson;
-    String temp;
+    String lastCat = "Andet emne";
 
     //get api list of categories.
     public ArrayList<String> getApiCategory(){ return apiList; }
@@ -84,19 +84,17 @@ public class api_call {
 
         getUrlData(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
+            public void onFailure(Call call, IOException e) {}
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 JsonReader reader = new JsonReader(response.body().charStream());
                 Kategori lov = gson.fromJson(reader, Kategori.class);
                 for (Value value: lov.getValue()) {
-                    Log.e("SAMMYERTYK", "new value: "+ value.getKategori());
                     apiList.add(value.getKategori());
                     apiCatId.add(value.getId());
                 }
+                apiList.add(lastCat);
                 runnable.run();
             }
         });
