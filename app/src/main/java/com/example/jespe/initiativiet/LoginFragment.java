@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
@@ -28,6 +29,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     TextView SignupBtn,FPassBtn;
     RelativeLayout activity_main;
     private FirebaseAuth auth;
+    private FirebaseAuthParser authParser;
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
@@ -132,6 +134,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 }
                 else{
                     startActivity(new Intent(getActivity(),FrameActivity.class));
+
+
+                    //getActivity().putExtra("myObject", new Gson().toJson(auth));
+
+                    //Bundle bundle = new Bundle();
+                    //System.out.println("Json obj of auth: " + new Gson().toJson(auth));
+                    //bundle.putCharSequence("obj", new Gson().toJson(auth));
+                    //bundle.putBundle("obj", new Gson().toJson(auth));
+
+                    //authParser = new FirebaseAuthParser(auth);
+                    //getActivity().putData("obj", authParser);
+
                     getActivity().finish();
 
                     /*getFragmentManager().beginTransaction()

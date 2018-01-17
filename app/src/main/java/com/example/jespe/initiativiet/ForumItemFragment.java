@@ -169,7 +169,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                if(cachedView == null ) {
                    cachedView = LayoutInflater.from(getContext()).inflate(R.layout.postlistitem, parent, false);
                }
-                //View v = super.getView(position, cachedView, parent);
+
                 if (position != postedComments.size()) {
                    TextView content = (TextView) cachedView.findViewById(R.id.description);
                    content.setText(postedComments.get(position).getContent());
