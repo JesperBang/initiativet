@@ -24,9 +24,9 @@ import com.google.gson.Gson;
 
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
-    Button LoginBtn;
+    //Button LoginBtn;
     EditText EmailInp,PassInp;
-    TextView SignupBtn,FPassBtn;
+    TextView SignupBtn,FPassBtn, LoginBtn;
     RelativeLayout activity_main;
     private FirebaseAuth auth;
     private FirebaseAuthParser authParser;
@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         View v = i.inflate(R.layout.fragment_login, container, false);
 
         //Btns
-        LoginBtn = (Button) v.findViewById(R.id.loginbtn);
+        //LoginBtn = (Button) v.findViewById(R.id.loginbtn);
 
         //EditText
         EmailInp = (EditText) v.findViewById(R.id.login_email);
@@ -49,6 +49,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         //TextView
         SignupBtn = (TextView) v.findViewById(R.id.signup);
         FPassBtn  = (TextView) v.findViewById(R.id.forgotpass);
+        LoginBtn = (TextView) v.findViewById(R.id.loginbtn);
 
         //Layout
         activity_main = (RelativeLayout) v.findViewById(R.id.activity_main);

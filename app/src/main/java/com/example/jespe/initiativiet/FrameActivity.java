@@ -35,8 +35,9 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
 
         //LL.get
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame, new TabFragment())
+        if (savedInstanceState==null)
+            getSupportFragmentManager().beginTransaction()
+                .add(R.id.frame, new TabFragment())
                 .commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,6 +86,13 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
             drawer.closeDrawer(GravityCompat.START);
 
             return true;
+    }
+    @Override
+    public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStack();
+        else
+            super.onBackPressed();
 
     }
 }

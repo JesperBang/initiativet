@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,10 +40,11 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
     ImageButton send;
 
     private FirebaseAuth auth;
+    InputMethodManager imm;
+
 
     DatabaseReference fb, fbc;
     ArrayAdapter aa;
-    Calendar cal;
 
     ArrayList<CommentMade> postedComments;
     Map<String, String> map;
@@ -59,6 +61,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
 
         FirebaseApp.initializeApp(getActivity());
         auth = FirebaseAuth.getInstance();
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         exists = false;
 
@@ -205,6 +208,8 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
 
         fbc.child("Comment: " + commentCount).setValue(newComment);
         commentList.setAdapter(aa);
-
+        comment.setText(null);
+        comment.clearFocus();
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
