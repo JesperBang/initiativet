@@ -48,7 +48,7 @@ public class ValgFragment extends Fragment{
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_valg, container, false);
 
-        // / get the listview
+        // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
         //Fetch and update list with data from API
@@ -78,18 +78,22 @@ public class ValgFragment extends Fragment{
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {}
 
-
     private void prepareListData() {
         for (int i = 0; i < api.getApiLovHeader().size(); i++){
             ArrayList<String> temp = new ArrayList<String>();
 
+            //If there is no resume we replace it with a descriptive text
+            //that explains that the poll does not yet have one.
+            if (api.getApiLovResume().get(i).isEmpty()){api.getApiLovResume().add(i,"Der er intet resume tilgængeligt på dette tidspunkt.");}
+
+            //formatting for expandable list
             temp.add("Nummer: "+
                     api.getApiLovNummer().get(i)+"\n\n"+
                     "Resume:\n"+
                     api.getApiLovResume().get(i)
             );
 
-            System.out.println(api.getApiLovResume().get(i));
+            //Adding info to child
             listDataChild.put(api.getApiLovHeader().get(i),temp);
         }
     }
