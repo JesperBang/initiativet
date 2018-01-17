@@ -86,7 +86,6 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
             drawer.closeDrawer(GravityCompat.START);
 
             return true;
-
     }
     @Override
     public void onBackPressed() {
