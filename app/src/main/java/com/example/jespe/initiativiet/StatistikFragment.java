@@ -104,16 +104,20 @@ public class StatistikFragment extends Fragment {
     }
     private PieChart addDataSet(PieChart pieChart, Float for1, Float imod, Float hverken,String titel, String nummer) {
         //https://github.com/PhilJay/MPAndroidChart/
+        ArrayList<Integer> colors = new ArrayList<>();
         List<PieEntry> entries = new ArrayList<>();
 
         if(for1 != 0){
             entries.add(new PieEntry(for1,"For"));
+            colors.add(Color.GREEN);
         }
         if(imod != 0){
             entries.add(new PieEntry(imod,"Imod"));
+            colors.add(Color.RED);
         }
         if(hverken != 0){
             entries.add(new PieEntry(hverken,"Ved ikke"));
+            colors.add(Color.GRAY);
         }
         final Float[] ydata = {for1, imod, hverken};
 
@@ -122,17 +126,12 @@ public class StatistikFragment extends Fragment {
         pieDataSet.setSliceSpace(3);
         pieDataSet.setValueTextSize(12);
 
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.GREEN);
-        colors.add(Color.RED);
-        colors.add(Color.GRAY);
-
         pieDataSet.setColors(colors);
 
         Legend legend = pieChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);
         legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART);
-
+        pieChart.setDescription("");
         pieChart.setNoDataText("Data mangler, refresh side");
         pieChart.setCenterText(nummer);
         pieChart.setCenterTextSize(27);

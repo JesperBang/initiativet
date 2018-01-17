@@ -55,7 +55,6 @@ public class api_call_statistics {
         }
     }
 
-
     //get api lists
     public ArrayList<Wrapper> wrappers;
 
@@ -105,6 +104,7 @@ public class api_call_statistics {
             public void onResponse(Call call, Response response) throws IOException {
                 JsonReader reader = new JsonReader(response.body().charStream());
                 Stat lov = gson.fromJson(reader, Stat.class);
+                wrappers.add(new Wrapper("60,19,40", "Placehold titel", "L 88"));
                 for (Value value: lov.getValue()) {
                     String temp = value.getAfstemningskonklusion();
                     apiLovTitel.add(value.getTitel());
