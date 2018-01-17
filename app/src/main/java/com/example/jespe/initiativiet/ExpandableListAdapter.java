@@ -2,6 +2,9 @@ package com.example.jespe.initiativiet;
 
 /**
  * Created by jespe on 17-Jan-18.
+ *
+ * Pænt lånt fra eksemplet på:
+ * https://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
  */
 
 import java.util.HashMap;
