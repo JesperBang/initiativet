@@ -98,6 +98,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 //Method for hiding keyboard after submitting so the user can see snackbars easily
                 // Check if no view has focus:
 
+                LoginBtn.setEnabled(false);
+
                 View view = getView();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -125,6 +127,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful()){
+                    LoginBtn.setEnabled(true);
                     if(password.length() < 6) {
                         //Snackbar for lightweight feedback
                         Snackbar snackBar = Snackbar.make(activity_main,"Password length must be over 6",Snackbar.LENGTH_SHORT);
