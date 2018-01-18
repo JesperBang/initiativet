@@ -74,45 +74,44 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
         postedComments = new ArrayList<>();
 
         comment = (EditText) view.findViewById(R.id.editText);
-        send= (ImageButton) view.findViewById(R.id.imageButton);
+        send = (ImageButton) view.findViewById(R.id.imageButton);
         send.setOnClickListener(this);
 
         comment.setText("Deltag i debatten her");
 
         //Firebase Reference
         fbc = FirebaseDatabase.getInstance().getReference().child("forumentriescomments");
-        fb =  FirebaseDatabase.getInstance().getReference().child("forumentries").child(key);
+        fb = FirebaseDatabase.getInstance().getReference().child("forumentries").child(key);
         fb.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 map = (Map) dataSnapshot.getValue();
                 type = map.get("type");
                 userCount = dataSnapshot.child("comUsers").getChildrenCount();
-                if (!type.equals("Normal")){
-                    if (dataSnapshot.child("comUsers").getValue() == null){
+                if (!type.equals("Normal")) {
+                    if (dataSnapshot.child("comUsers").getValue() == null) {
                         fb.child("comUsers")
                                 .child("user: " + userCount)
                                 .setValue(map.get("authorID"));
                     }
 
-                    for (DataSnapshot typeShot : dataSnapshot.child("comUsers").getChildren()){
-                        if (auth.getCurrentUser().getUid().toString().equals(typeShot.getValue().toString())){
+                    for (DataSnapshot typeShot : dataSnapshot.child("comUsers").getChildren()) {
+                        if (auth.getCurrentUser().getUid().toString().equals(typeShot.getValue().toString())) {
                             exists = true;
                             break;
                         }
                     }
 
-                    if (type.equals("1on1 Debat")){
-                        if (dataSnapshot.child("comUsers").getChildrenCount() == 2){
-                            if (!exists){
+                    if (type.equals("1on1 Debat")) {
+                        if (dataSnapshot.child("comUsers").getChildrenCount() == 2) {
+                            if (!exists) {
                                 send.setVisibility(View.GONE);
                                 comment.setVisibility(View.GONE);
                             }
                         }
-                    }
-                    else {
-                        if (dataSnapshot.child("comUsers").getChildrenCount() == 4){
-                            if (!exists){
+                    } else {
+                        if (dataSnapshot.child("comUsers").getChildrenCount() == 4) {
+                            if (!exists) {
                                 send.setVisibility(View.GONE);
                                 comment.setVisibility(View.GONE);
                             }
@@ -121,7 +120,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                 }
 
                 postedComments.clear();
-                if (map.get("commentsKey") == null){
+                if (map.get("commentsKey") == null) {
                     commentsKey = fbc.push().getKey();
                     fb.child("commentsKey").setValue(commentsKey);
                 } else {
@@ -131,21 +130,22 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                     fbc.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue() == null){
+                            if (dataSnapshot.getValue() == null) {
                                 CommentMade firstComment = new CommentMade(map.get("content"), map.get("dateCreated"), map.get("authorID"));
                                 fbc.child("Comment: " + commentCount).setValue(firstComment);
                                 commentCount = dataSnapshot.getChildrenCount();
                             }
                             postedComments.clear();
-                            for ( DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 map = (Map) snapshot.getValue();
                                 postedComments.add(new CommentMade(
-                                    map.get("content"),
-                                    map.get("date"),
-                                    map.get("author")));
+                                        map.get("content"),
+                                        map.get("date"),
+                                        map.get("author")));
                             }
                             commentCount = dataSnapshot.getChildrenCount();
                             commentList.setAdapter(aa);
+                            send.setEnabled(true);
                         }
 
                         @Override
@@ -164,22 +164,22 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        aa = new ArrayAdapter(getActivity(), R.layout.postlistitem, R.id.author, postedComments){
+        aa = new ArrayAdapter(getActivity(), R.layout.postlistitem, R.id.author, postedComments) {
 
 
             @Override
             public View getView(int position, View cachedView, ViewGroup parent) {
-               if(cachedView == null ) {
-                   cachedView = LayoutInflater.from(getContext()).inflate(R.layout.postlistitem, parent, false);
-               }
+                if (cachedView == null) {
+                    cachedView = LayoutInflater.from(getContext()).inflate(R.layout.postlistitem, parent, false);
+                }
 
                 if (position != postedComments.size()) {
-                   TextView content = (TextView) cachedView.findViewById(R.id.description);
-                   content.setText(postedComments.get(position).getContent());
-                   //TextView author = (TextView) cachedView.findViewById(R.id.author);
-                   //author.setText(postedComments.get(position).getAuthor());
-                   TextView date = (TextView) cachedView.findViewById(R.id.date);
-                   date.setText(postedComments.get(position).getDate());
+                    TextView content = (TextView) cachedView.findViewById(R.id.description);
+                    content.setText(postedComments.get(position).getContent());
+                    //TextView author = (TextView) cachedView.findViewById(R.id.author);
+                    //author.setText(postedComments.get(position).getAuthor());
+                    TextView date = (TextView) cachedView.findViewById(R.id.date);
+                    date.setText(postedComments.get(position).getDate());
                 }
 
                 return cachedView;
@@ -189,27 +189,35 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
 
         return view;
     }
+
     @Override
     public void onClick(View view) {
 
-        Date time = Calendar.getInstance().getTime();
-        DateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
-        String currentTime = formatter.format(time);
-        CommentMade newComment = new CommentMade(
-            comment.getText().toString(),
-            currentTime,
-            auth.getCurrentUser().getUid());
+        if (!(comment.getText().length() == 0)) {
 
-        if (!type.equals("Normal") && !exists){
-            fb.child("comUsers")
-                    .child("user: " + userCount)
-                    .setValue(auth.getCurrentUser().getUid());
+            send.setEnabled(false);
+            Date time = Calendar.getInstance().getTime();
+            DateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
+            String currentTime = formatter.format(time);
+            CommentMade newComment = new CommentMade(
+                    comment.getText().toString(),
+                    currentTime,
+                    auth.getCurrentUser().getUid());
+
+            if (!type.equals("Normal") && !exists) {
+                fb.child("comUsers")
+                        .child("user: " + userCount)
+                        .setValue(auth.getCurrentUser().getUid());
+            }
+
+            fbc.child("Comment: " + commentCount).setValue(newComment);
+            commentList.setAdapter(aa);
+            comment.setText(null);
+            comment.clearFocus();
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
 
-        fbc.child("Comment: " + commentCount).setValue(newComment);
-        commentList.setAdapter(aa);
-        comment.setText(null);
-        comment.clearFocus();
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
+
 }
