@@ -98,6 +98,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                     for (DataSnapshot typeShot : dataSnapshot.child("comUsers").getChildren()) {
                         if (auth.getCurrentUser().getUid().toString().equals(typeShot.getValue().toString())) {
                             exists = true;
+                            System.out.println("ÆØÅ");
                             break;
                         }
                     }
