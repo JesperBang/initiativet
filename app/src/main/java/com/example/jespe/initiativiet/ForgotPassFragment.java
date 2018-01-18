@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,11 +30,12 @@ public class ForgotPassFragment extends Fragment implements View.OnClickListener
     TextView BackBtn;
     RelativeLayout activity_forgot;
     private FirebaseAuth auth;
+    View vie;
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_forgot_pass, container, false);
-
+        vie = v;
         //Buttons
         ResetBtn = (Button) v.findViewById(R.id.ResetBtn);
 
@@ -72,9 +74,7 @@ public class ForgotPassFragment extends Fragment implements View.OnClickListener
                 try {
                     resetPassword(EmailInp.getText().toString());
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Snackbar snackBar = Snackbar.make(activity_forgot,"Error: "+e.getMessage().replace("String","Input"),Snackbar.LENGTH_SHORT);
-                    snackBar.show();
+                    snack("Error: "+e.getMessage().replace("String","Input"));
                 }
                 break;
             case R.id.BackBtn:
@@ -88,14 +88,18 @@ public class ForgotPassFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    public void snack(String msg){
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     private void resetPassword(final String email) {
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onComplete(@NonNull final Task<Void> task) {
                         if(task.isSuccessful()){
-                            Snackbar snackBar = Snackbar.make(activity_forgot,"Please check your mail for reset link: "+email,Snackbar.LENGTH_SHORT);
-                            snackBar.show();
+                            snack("Please check your mail for reset link: "+email);
 
                             //Returning user to mainpage after 3.5 seconds, so that the user has a chance to reade the snackbar info.
                             Runnable r = new Runnable() {
@@ -115,8 +119,7 @@ public class ForgotPassFragment extends Fragment implements View.OnClickListener
                             h.postDelayed(r, 3500);
                         }
                         else{
-                            Snackbar snackBar = Snackbar.make(activity_forgot,"Failed: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
-                            snackBar.show();
+                                    snack("Failed");
                         }
                     }
                 });

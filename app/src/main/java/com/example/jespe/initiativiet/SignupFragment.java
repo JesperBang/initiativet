@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,14 +28,14 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
     TextView logmein,forgotpass;
     EditText EmailInp, PassInp;
     RelativeLayout SignUp_Activity;
-
+    View vie2;
     private FirebaseAuth auth;
     Snackbar snackbar;
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_signup, container, false);
-
+        vie2 = v;
         //Buttons
         RegisterBtn = (Button) v.findViewById(R.id.loginbtn);
 
@@ -78,10 +79,21 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                //Logging in user with email and pass
-                signUpUser(EmailInp.getText().toString(),PassInp.getText().toString());
+
+                if (!EmailInp.getText().toString().isEmpty() && !PassInp.getText().toString().isEmpty()){
+                    //Logging in user with email and pass
+                    signUpUser(EmailInp.getText().toString(),PassInp.getText().toString());
+                }else{
+                    snacks("Tomt password eller email");
+                }
+
                 break;
         }
+    }
+
+    public void snacks(String msg){
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     private void signUpUser(String email, String password) {
@@ -91,8 +103,7 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
                             //Error if pass is too short
-                            snackbar = Snackbar.make(SignUp_Activity,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
-                            snackbar.show();
+                            snacks("Error");
                         }
                         else{
                             getFragmentManager().beginTransaction()

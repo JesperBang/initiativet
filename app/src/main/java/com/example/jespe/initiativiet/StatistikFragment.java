@@ -104,9 +104,8 @@ public class StatistikFragment extends Fragment {
     }
     private PieChart addDataSet(PieChart pieChart, Float for1, Float imod, Float hverken,String titel, String nummer) {
         //https://github.com/PhilJay/MPAndroidChart/
-        ArrayList<Integer> colors = new ArrayList<>();
         List<PieEntry> entries = new ArrayList<>();
-
+        ArrayList<Integer> colors = new ArrayList<>();
         if(for1 != 0){
             entries.add(new PieEntry(for1,"For"));
             colors.add(Color.GREEN);
@@ -119,13 +118,15 @@ public class StatistikFragment extends Fragment {
             entries.add(new PieEntry(hverken,"Ved ikke"));
             colors.add(Color.GRAY);
         }
+        if(for1 ==0 && imod == 0 && hverken == 0){
+            colors.add(Color.CYAN);
+        }
         final Float[] ydata = {for1, imod, hverken};
 
 
         PieDataSet pieDataSet = new PieDataSet(entries,titel);
         pieDataSet.setSliceSpace(3);
         pieDataSet.setValueTextSize(12);
-
         pieDataSet.setColors(colors);
 
         Legend legend = pieChart.getLegend();
