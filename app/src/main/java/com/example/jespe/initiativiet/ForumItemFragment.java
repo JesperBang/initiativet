@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class ForumItemFragment extends Fragment implements View.OnClickListener {
 
@@ -53,6 +54,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
     String key, commentsKey, type;
 
     long commentCount, userCount;
+    Integer userNumber;
     Bundle bundle;
 
     boolean exists;
@@ -88,18 +90,19 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                 map = (Map) dataSnapshot.getValue();
                 type = map.get("type");
                 userCount = dataSnapshot.child("comUsers").getChildrenCount();
-                if (!type.equals("Normal")) {
                     if (dataSnapshot.child("comUsers").getValue() == null) {
                         fb.child("comUsers")
                                 .child("user: " + userCount)
                                 .setValue(map.get("authorID"));
                     }
 
+                    userNumber = 0;
                     for (DataSnapshot typeShot : dataSnapshot.child("comUsers").getChildren()) {
                         if (auth.getCurrentUser().getUid().toString().equals(typeShot.getValue().toString())) {
                             exists = true;
                             break;
                         }
+                        userNumber++;
                     }
 
                     if (type.equals("1on1 Debat")) {
@@ -117,7 +120,6 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                             }
                         }
                     }
-                }
 
                 postedComments.clear();
                 if (map.get("commentsKey") == null) {
@@ -177,8 +179,8 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                 if (position != postedComments.size()) {
                     TextView content = (TextView) cachedView.findViewById(R.id.description);
                     content.setText(postedComments.get(position).getContent());
-                    //TextView author = (TextView) cachedView.findViewById(R.id.author);
-                    //author.setText(postedComments.get(position).getAuthor());
+                    TextView author = (TextView) cachedView.findViewById(R.id.author);
+                    author.setText(postedComments.get(position).getAuthor());
                     TextView date = (TextView) cachedView.findViewById(R.id.date);
                     date.setText(postedComments.get(position).getDate());
                 }
@@ -197,15 +199,16 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
         if (!(comment.getText().length() == 0)) {
 
             send.setEnabled(false);
+            TimeZone.setDefault(TimeZone.getTimeZone("CET"));
             Date time = Calendar.getInstance().getTime();
             DateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
             String currentTime = formatter.format(time);
             CommentMade newComment = new CommentMade(
                     comment.getText().toString(),
                     currentTime,
-                    auth.getCurrentUser().getUid());
+                    "Debattør: " + userNumber.toString());
 
-            if (!type.equals("Normal") && !exists) {
+            if (!exists) {
                 fb.child("comUsers")
                         .child("user: " + userCount)
                         .setValue(auth.getCurrentUser().getUid());
