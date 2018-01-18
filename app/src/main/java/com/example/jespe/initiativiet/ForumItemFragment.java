@@ -133,7 +133,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue() == null) {
-                                CommentMade firstComment = new CommentMade(map.get("content"), map.get("dateCreated"), map.get("authorID"));
+                                CommentMade firstComment = new CommentMade(map.get("content"), map.get("dateCreated"), "Debattør: " + userNumber.toString());
                                 fbc.child("Comment: " + commentCount).setValue(firstComment);
                                 commentCount = dataSnapshot.getChildrenCount();
                             }
