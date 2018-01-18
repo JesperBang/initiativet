@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -109,18 +110,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 }
 
                 //Logging in user with email and pass
-                try {
+                if (!EmailInp.getText().toString().isEmpty() && !PassInp.getText().toString().isEmpty()){
                     userlogin(EmailInp.getText().toString(), PassInp.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-
+                }else{
                     //Snackbar for lightweight feedback
-                    Snackbar snackBar = Snackbar.make(activity_main,"Email and/or password cannot be empty",Snackbar.LENGTH_SHORT);
-                    snackBar.show();
+                    msgs("Email og/eller password må ikke være tom.");
+                    LoginBtn.setEnabled(true);
                 }
-
                 break;
         }
+    }
+
+    public void msgs(String msg){
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     //login method
@@ -131,34 +134,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 if(!task.isSuccessful()){
                     LoginBtn.setEnabled(true);
                     if(password.length() < 6) {
-                        //Snackbar for lightweight feedback
-                        Snackbar snackBar = Snackbar.make(activity_main,"Password length must be over 6",Snackbar.LENGTH_SHORT);
-                        snackBar.show();
+                        msgs("Password length must be over 6");
                     }else{
-                        Snackbar snackbar = Snackbar.make(activity_main,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
-                        snackbar.show();
+                        try{
+                            msgs("Error");
+                        }catch (Exception e){}
                     }
                 }
                 else{
                     startActivity(new Intent(getActivity(),FrameActivity.class));
-
-
-                    //getActivity().putExtra("myObject", new Gson().toJson(auth));
-
-                    //Bundle bundle = new Bundle();
-                    //System.out.println("Json obj of auth: " + new Gson().toJson(auth));
-                    //bundle.putCharSequence("obj", new Gson().toJson(auth));
-                    //bundle.putBundle("obj", new Gson().toJson(auth));
-
-                    //authParser = new FirebaseAuthParser(auth);
-                    //getActivity().putData("obj", authParser);
-
                     getActivity().finish();
-
-                    /*getFragmentManager().beginTransaction()
-                            .replace(R.id.fragmentContainer, new ValgFragment())
-                            .addToBackStack(null)
-                            .commit();*/
                 }
             }
         });
