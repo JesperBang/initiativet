@@ -130,6 +130,7 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
                             Handler h = new Handler();
                             h.postDelayed(r, 2500);
                         } else {
+                            SubmitBtn.setEnabled(true);
                             Snackbar snackBar = Snackbar.make(create_activity, "Failed to post on forum. Try again!", Snackbar.LENGTH_SHORT);
                             snackBar.show();
                         }
@@ -166,6 +167,7 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.SubmitBtn:
+                SubmitBtn.setEnabled(false);
                 View view = getActivity().getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
