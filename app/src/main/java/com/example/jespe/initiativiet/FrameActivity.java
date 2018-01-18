@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +78,12 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
 
         } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_logout) {
+        }
+        else if (id == R.id.nav_credets) {
+            Toast.makeText(this, "Lavet af:" + "\n" +"Sammy Masoule"+ "\n" +"Jesper Bang"+ "\n" +"Niklas Thielemann"+ "\n" +"Gustav Petersen"+ "\n" +"Jonathan Friis", Toast.LENGTH_SHORT).show();
+
+        }
+        else if (id == R.id.nav_logout) {
             FirebaseApp.initializeApp(this);
             auth = FirebaseAuth.getInstance();
             auth.signOut();
