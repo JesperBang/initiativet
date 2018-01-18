@@ -24,9 +24,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPassFragment extends Fragment implements View.OnClickListener {
 
-    Button ResetBtn;
+    //Button ResetBtn;
     EditText EmailInp;
-    TextView BackBtn;
+    TextView BackBtn, ResetBtn;
     RelativeLayout activity_forgot;
     private FirebaseAuth auth;
 
@@ -35,13 +35,14 @@ public class ForgotPassFragment extends Fragment implements View.OnClickListener
         View v = i.inflate(R.layout.fragment_forgot_pass, container, false);
 
         //Buttons
-        ResetBtn = (Button) v.findViewById(R.id.ResetBtn);
+        //ResetBtn = (Button) v.findViewById(R.id.ResetBtn);
 
         //EditText
         EmailInp = (EditText) v.findViewById(R.id.EmailInp);
 
         //TextView
         BackBtn = (TextView) v.findViewById(R.id.BackBtn);
+        ResetBtn = (TextView) v.findViewById(R.id.ResetBtn);
 
         //Layout
         activity_forgot = (RelativeLayout) v.findViewById(R.id.activity_forgot_password);

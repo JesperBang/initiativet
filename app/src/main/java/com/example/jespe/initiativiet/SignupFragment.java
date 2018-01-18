@@ -23,8 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupFragment extends Fragment implements View.OnClickListener {
-    Button RegisterBtn;
-    TextView logmein,forgotpass;
+    //Button RegisterBtn;
+    TextView logmein,forgotpass, RegisterBtn;
     EditText EmailInp, PassInp;
     RelativeLayout SignUp_Activity;
 
@@ -36,11 +36,12 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
         View v = i.inflate(R.layout.fragment_signup, container, false);
 
         //Buttons
-        RegisterBtn = (Button) v.findViewById(R.id.loginbtn);
+        //RegisterBtn = (Button) v.findViewById(R.id.loginbtn);
 
         //TextViews
         logmein     = (TextView) v.findViewById(R.id.logmein);
         forgotpass  = (TextView) v.findViewById(R.id.forgotpass);
+        RegisterBtn = (TextView) v.findViewById(R.id.loginbtn);
 
         //EditText
         EmailInp    = (EditText) v.findViewById(R.id.EmailInp);
