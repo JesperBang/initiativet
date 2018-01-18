@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 
 public class FrameActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

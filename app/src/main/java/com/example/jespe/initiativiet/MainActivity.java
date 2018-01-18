@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
-
         if (savedInstanceState == null) {
             //Load "Main" Fragment
             Fragment frag = new LoginFragment();
