@@ -201,7 +201,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
             send.setEnabled(false);
             TimeZone.setDefault(TimeZone.getTimeZone("CET"));
             Date time = Calendar.getInstance().getTime();
-            DateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
+            DateFormat formatter = new SimpleDateFormat("HH:mm - dd/MM/yyyy");
             String currentTime = formatter.format(time);
             CommentMade newComment = new CommentMade(
                     comment.getText().toString(),
