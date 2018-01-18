@@ -17,13 +17,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/initiativet"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:layout_width="180dp"
         android:layout_height="35dp"
         />
 
     <android.support.design.widget.TextInputLayout
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="60dp"
         android:layout_below="@+id/icon"
         android:id="@+id/forgot_input_email"
         android:layout_width="match_parent"
@@ -34,22 +34,28 @@
             android:id="@+id/EmailInp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your email"
+            android:hint="Indtast email"
             android:inputType="textCapWords"
-            android:maxLines="1" />
+            android:maxLines="1"/>
 
     </android.support.design.widget.TextInputLayout>
 
 
 
-    <Button
+    <TextView
         android:layout_below="@+id/forgot_input_email"
         android:id="@+id/ResetBtn"
-        android:text="Reset Password"
-        android:background="@color/GreenTheme"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:text="Gendan kodeord"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/BackBtn"
@@ -58,7 +64,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ResetBtn"
         android:layout_centerHorizontal="true"
-        android:text="I remember my password. Log me in!"
-        android:textColor="@color/colorPrimaryDark" />
+        android:clickable="true"
+        android:textSize="12dp"
+        android:text="Jeg kan godt huske mit kodeord. Log mig ind."
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

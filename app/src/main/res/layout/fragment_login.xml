@@ -32,7 +32,7 @@
 
         <EditText
             android:id="@+id/login_email"
-            android:hint="Enter your email"
+            android:hint="Indtast email"
             android:inputType="textCapWords"
             android:maxLines="1"
             android:layout_width="match_parent"
