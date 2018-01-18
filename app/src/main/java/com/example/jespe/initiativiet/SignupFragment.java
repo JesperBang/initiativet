@@ -46,9 +46,6 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
         EmailInp    = (EditText) v.findViewById(R.id.EmailInp);
         PassInp     = (EditText) v.findViewById(R.id.PassInp);
 
-        //Layout
-        //SignUp_Activity = (RelativeLayout) v;//.findViewById(R.id.fragment_signup);
-
         //ActionListeners
         RegisterBtn.setOnClickListener(this);
         logmein.setOnClickListener(this);
@@ -81,7 +78,6 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-
                 //Logging in user with email and pass
                 signUpUser(EmailInp.getText().toString(),PassInp.getText().toString());
                 break;
@@ -95,39 +91,13 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
                             //Error if pass is too short
-                            //snackbar = Snackbar.make(SignUp_Activity,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
-                            //snackbar.show();
+                            snackbar = Snackbar.make(SignUp_Activity,"Error: "+task.getException().getMessage(),Snackbar.LENGTH_SHORT);
+                            snackbar.show();
                         }
                         else{
-                            //Success message
-                            //snackbar = Snackbar.make(SignUp_Activity,"Register success! ",Snackbar.LENGTH_SHORT);
-                            //snackbar.show();
-
-
-                            //Returning user to mainpage after 3.5 seconds, so that the user has a chance to reade the snackbar info.
-                            Runnable r = new Runnable() {
-                                @Override
-                                public void run() {
-                                    // if you are redirecting from a fragment then use getActivity() as the context.
-                                    getFragmentManager().beginTransaction()
-                                            .replace(R.id.fragmentContainer, new LoginFragment())
-                                            .addToBackStack(null).commit();
-
-                                    //startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                                    //finish();
-                                }
-                            };
-
-                            //Running the runnable after 3.5 seconds delay.
-                            Handler h = new Handler();
-                            h.postDelayed(r, 3500);
-
                             getFragmentManager().beginTransaction()
                                     .replace(R.id.fragmentContainer, new LoginFragment())
                                     .addToBackStack(null).commit();
-
-                            //startActivity(new Intent(SignupActivity.this,MainActivity.class));
-                            //finish();
                         }
                     }
                 });

@@ -49,7 +49,7 @@ public class ValgFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_valg, container, false);
-        
+
         System.out.println("crash collection enabled: "+FirebaseCrash.isCrashCollectionEnabled());
 
         // get the listview
