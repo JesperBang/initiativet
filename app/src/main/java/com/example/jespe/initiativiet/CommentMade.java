@@ -79,33 +79,33 @@ public class CommentMade implements Comparable {
         //Compare integers
         //Years
         if (year_1 > year_2)
-            return this.compareTo(that);
+            return 1;
         else if (year_2 > year_1)
-            return that.compareTo(this);
+            return -1;
 
         //Months
         if (month_1 > month_2)
-            return this.compareTo(that);
+            return 1; //this.getDate().compareTo(that.getDate());
         else if (month_2 > month_1)
-            return that.compareTo(this);
+            return -1; // that.getDate().compareTo(this.getDate());
 
         //Days
         if (day_1 > day_2)
-            return this.compareTo(that);
+            return 1; //this.compareTo(that);
         else if (day_2 > day_1)
-            return that.compareTo(this);
+            return -1; //that.compareTo(this);
 
         //Hours
         if (hour_1 > hour_2)
-            return this.compareTo(that);
+            return 1; //this.compareTo(that);
         else if (hour_2 > hour_1)
-            return that.compareTo(this);
+            return -1; //that.compareTo(this);
 
         //Minutes
         if (min_1 > min_2)
-            return this.compareTo(that);
+            return 1; //this.compareTo(that);
         else if (min_2 > min_1)
-            return that.compareTo(this);
+            return -1; //that.compareTo(this);
 
         return 0;
     }
