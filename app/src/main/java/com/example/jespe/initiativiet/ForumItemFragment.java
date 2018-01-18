@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -77,8 +78,6 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
         comment = (EditText) view.findViewById(R.id.editText);
         send = (ImageButton) view.findViewById(R.id.imageButton);
         send.setOnClickListener(this);
-
-        comment.setText("Deltag i debatten her");
 
         //Firebase Reference
         fbc = FirebaseDatabase.getInstance().getReference().child("forumentriescomments");
@@ -146,6 +145,7 @@ public class ForumItemFragment extends Fragment implements View.OnClickListener 
                             }
                             commentCount = dataSnapshot.getChildrenCount();
                             commentList.setAdapter(aa);
+                            Collections.sort(postedComments);
                             send.setEnabled(true);
                         }
 

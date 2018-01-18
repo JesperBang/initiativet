@@ -21,6 +21,7 @@
         android:layout_marginLeft="10dp">
 
         <EditText
+            android:hint="Deltag i debatten her"
             android:id="@+id/editText"
             android:layout_width="0px"
             android:layout_height="wrap_content"
