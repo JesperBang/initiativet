@@ -82,10 +82,6 @@ public class ValgFragment extends Fragment{
         for (int i = 0; i < api.getApiLovHeader().size(); i++){
             ArrayList<String> temp = new ArrayList<String>();
 
-            //If there is no resume we replace it with a descriptive text
-            //that explains that the poll does not yet have one.
-            if (api.getApiLovResume().get(i).isEmpty()){api.getApiLovResume().add(i,"Der er intet resume tilgængeligt på dette tidspunkt.");}
-
             //formatting for expandable list
             temp.add("Nummer: "+
                     api.getApiLovNummer().get(i)+"\n\n"+
