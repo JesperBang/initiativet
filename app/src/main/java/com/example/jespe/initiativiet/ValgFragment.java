@@ -20,8 +20,10 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.stream.JsonReader;
 
 import java.io.StringReader;
@@ -47,6 +49,8 @@ public class ValgFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_valg, container, false);
+
+        System.out.println("crash collection enabled: "+FirebaseCrash.isCrashCollectionEnabled());
 
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
@@ -81,10 +85,6 @@ public class ValgFragment extends Fragment{
     private void prepareListData() {
         for (int i = 0; i < api.getApiLovHeader().size(); i++){
             ArrayList<String> temp = new ArrayList<String>();
-
-            //If there is no resume we replace it with a descriptive text
-            //that explains that the poll does not yet have one.
-            if (api.getApiLovResume().get(i).isEmpty()){api.getApiLovResume().add(i,"Der er intet resume tilgængeligt på dette tidspunkt.");}
 
             //formatting for expandable list
             temp.add("Nummer: "+

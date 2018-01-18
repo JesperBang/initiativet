@@ -2,6 +2,7 @@ package com.example.jespe.initiativiet;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 
 public class FrameActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,14 +29,15 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
     private FirebaseAuth auth;
 
     @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_framelayout);
-        //fl = (FrameLayout) findViewById(R.id.frame);
-
-        //LL = (LinearLayout) findViewById(R.id.main_content);
-
-        //LL.get
 
         if (savedInstanceState==null)
             getSupportFragmentManager().beginTransaction()

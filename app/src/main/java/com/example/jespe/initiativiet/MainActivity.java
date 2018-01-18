@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -30,7 +32,5 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragmentContainer, frag)
                     .commit();
         }
-
     }
-
 }
