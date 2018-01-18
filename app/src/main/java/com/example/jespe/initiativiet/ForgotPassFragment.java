@@ -120,7 +120,9 @@ public class ForgotPassFragment extends Fragment implements View.OnClickListener
                             h.postDelayed(r, 3500);
                         }
                         else{
-                                    snack("Failed");
+                            try {
+                                snack("Failed");
+                            }catch (Exception e){}
                         }
                     }
                 });

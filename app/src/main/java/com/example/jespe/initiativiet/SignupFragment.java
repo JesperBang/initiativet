@@ -103,8 +103,10 @@ public class SignupFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
-                            //Error if pass is too short
-                            snacks("Error");
+                            //Error if pass is too
+                            try{
+                                snacks("Error");
+                            }catch (Exception e){}
                         }
                         else{
                             getFragmentManager().beginTransaction()
