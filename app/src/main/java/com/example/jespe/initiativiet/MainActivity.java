@@ -16,12 +16,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
 
         if (savedInstanceState == null) {
             //Load "Main" Fragment
@@ -30,7 +34,5 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragmentContainer, frag)
                     .commit();
         }
-
     }
-
 }

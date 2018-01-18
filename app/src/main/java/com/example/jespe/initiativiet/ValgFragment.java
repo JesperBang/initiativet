@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.stream.JsonReader;
@@ -47,6 +48,8 @@ public class ValgFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_valg, container, false);
+
+        //Crashlytics.getInstance().crash(); // Force a crash, testing crashlytics...
 
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
