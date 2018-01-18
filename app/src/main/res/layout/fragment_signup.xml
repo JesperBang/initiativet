@@ -17,13 +17,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/initiativet"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:layout_width="180dp"
         android:layout_height="35dp"
         />
 
     <android.support.design.widget.TextInputLayout
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="60dp"
         android:layout_below="@+id/icon"
         android:id="@+id/login_input_email"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:id="@+id/EmailInp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your email"
+            android:hint="Indtast email"
             android:inputType="textCapWords"
             android:maxLines="1" />
 
@@ -51,32 +51,39 @@
             android:id="@+id/PassInp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your password"
+            android:hint="Indtast kodeord"
             android:inputType="textPassword"
             android:maxLines="1" />
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <TextView
         android:id="@+id/loginbtn"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_input_password"
-        android:background="@color/GreenTheme"
-        android:text="Register" />
+        android:clickable="true"
+        android:textStyle="bold"
+        android:text="Opret bruger"
+        android:textSize="18dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_below="@+id/loginbtn"
         android:id="@+id/forgotpass"
         android:layout_centerHorizontal="true"
         android:clickable="true"
-        android:textStyle="bold"
-        android:text="Forgot Password ?"
+        android:textSize="12dp"
+        android:text="Glemt password ?"
+        android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
 
     <LinearLayout
         android:id="@+id/layoutOr"
@@ -93,9 +100,9 @@
             android:layout_margin="5dp"/>
         <TextView
             android:padding="5dp"
-            android:text="OR"
+            android:text="Eller"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
         <View
             android:layout_width="200dp"
             android:layout_height="1dp"
@@ -112,9 +119,10 @@
         android:layout_below="@+id/layoutOr"
         android:layout_centerHorizontal="true"
         android:clickable="true"
-        android:text="GOT ACCOUNT? LOG ME IN!"
+        android:text="Er du allerede en bruger? Log ind her."
         android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
+        android:textSize="12dp"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>
 
