@@ -7,21 +7,22 @@ package com.example.jespe.initiativiet;
  */
 
 public class ForumEntry {
-    private String journalId;
+    private String type;
     private String title;
     private String content;
-    private long dateCreated;
-    private long dateModified;
+    private String dateCreated;
+    private String dateModified;
     private String tagId;
     private String tagName;
+    private String authorID;
 
-    public String getJournalId() {
-        return journalId;
-    }
+    public String getAuthorID() { return  authorID; };
 
-    public void setJournalId(String journalId) {
-        this.journalId = journalId;
-    }
+    public void setAuthorID(String authorID) { this.authorID = authorID; }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type;}
 
     public String getTitle() {
         return title;
@@ -39,19 +40,19 @@ public class ForumEntry {
         this.content = content;
     }
 
-    public long getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Long dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public long getDateModified() {
+    public String getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(long dateModified) {
+    public void setDateModified(String dateModified) {
         this.dateModified = dateModified;
     }
 
@@ -71,5 +72,3 @@ public class ForumEntry {
         this.tagName = tagName;
     }
 }
-
-

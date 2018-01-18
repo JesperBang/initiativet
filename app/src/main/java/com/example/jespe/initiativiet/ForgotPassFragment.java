@@ -2,14 +2,15 @@ package com.example.jespe.initiativiet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ForgotPassActivity extends AppCompatActivity implements View.OnClickListener {
+public class ForgotPassFragment extends Fragment implements View.OnClickListener {
 
     Button ResetBtn;
     EditText EmailInp;
@@ -30,28 +31,29 @@ public class ForgotPassActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth auth;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_pass);
+    public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
+        View v = i.inflate(R.layout.fragment_forgot_pass, container, false);
 
         //Buttons
-        ResetBtn = (Button) findViewById(R.id.ResetBtn);
+        ResetBtn = (Button) v.findViewById(R.id.ResetBtn);
 
         //EditText
-        EmailInp = (EditText) findViewById(R.id.EmailInp);
+        EmailInp = (EditText) v.findViewById(R.id.EmailInp);
 
         //TextView
-        BackBtn = (TextView) findViewById(R.id.BackBtn);
+        BackBtn = (TextView) v.findViewById(R.id.BackBtn);
 
         //Layout
-        activity_forgot = (RelativeLayout) findViewById(R.id.activity_forgot_password);
+        activity_forgot = (RelativeLayout) v.findViewById(R.id.activity_forgot_password);
 
         //Firebase init
-        FirebaseApp.initializeApp(this);
+        FirebaseApp.initializeApp(getActivity());
         auth = FirebaseAuth.getInstance();
 
         BackBtn.setOnClickListener(this);
         ResetBtn.setOnClickListener(this);
+
+        return v;
     }
 
     @Override
@@ -60,9 +62,9 @@ public class ForgotPassActivity extends AppCompatActivity implements View.OnClic
             case R.id.ResetBtn:
                 //Method for hiding keyboard after submitting so the user can see snackbars easily
                 // Check if no view has focus:
-                View view = this.getCurrentFocus();
+                View view = getActivity().getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
@@ -76,15 +78,19 @@ public class ForgotPassActivity extends AppCompatActivity implements View.OnClic
                 }
                 break;
             case R.id.BackBtn:
-                startActivity(new Intent(ForgotPassActivity.this,MainActivity.class));
-                finish();
+                //startActivity(new Intent(ForgotPassActivity.this,MainActivity.class));
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, new LoginFragment())
+                        .addToBackStack(null)
+                        .commit();
+
                 break;
         }
     }
 
     private void resetPassword(final String email) {
         auth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -96,8 +102,11 @@ public class ForgotPassActivity extends AppCompatActivity implements View.OnClic
                                 @Override
                                 public void run() {
                                     // if you are redirecting from a fragment then use getActivity() as the context.
-                                    startActivity(new Intent(ForgotPassActivity.this, MainActivity.class));
-                                    finish();
+                                    //startActivity(new Intent(ForgotPassActivity.this, MainActivity.class));
+                                    getFragmentManager().beginTransaction()
+                                            .replace(R.id.fragmentContainer, new LoginFragment())
+                                            .addToBackStack(null)
+                                            .commit();
                                 }
                             };
 
