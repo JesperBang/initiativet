@@ -154,17 +154,32 @@ public class ForumFragment extends Fragment implements View.OnClickListener, Ada
         bundle.putString("Key", lfs.get(position).getKey());
         frag.setArguments(bundle);
 
+        /*
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, frag);
         transaction.addToBackStack(null);
         transaction.commit();
+        */
 
+        //Hack mode
+        getFragmentManager().beginTransaction()
+                .add(R.id.frame, frag, "ForumItemFrag")
+                .addToBackStack("TabFrag")
+                .commit();
     }
 
     public void createPost() {
+
+        //Hack mode
+        getFragmentManager().beginTransaction()
+                .add(R.id.frame, new CreatePostFragment(), "CreatePost")
+                .addToBackStack("TabFrag")
+                .commit();
+        /*
         getFragmentManager().beginTransaction()
                 .replace(R.id.frame, new CreatePostFragment())
                 .addToBackStack(null)
                 .commit();
+        */
     }
 }

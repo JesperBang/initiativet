@@ -41,7 +41,7 @@ public class FrameActivity extends AppCompatActivity implements NavigationView.O
 
         if (savedInstanceState==null)
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.frame, new TabFragment())
+                .add(R.id.frame, new TabFragment(), "TabFrag")
                 .commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

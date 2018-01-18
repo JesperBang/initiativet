@@ -80,7 +80,7 @@ public class StatistikFragment extends Fragment {
 
         piechartlist.setAdapter(aap);
 
-        //To stop app from fetching 2800 pages of api data once again
+        //To stop app from fetching 2800 pages ofhttps://www.canva.com/design/DACoLEbbwxQ/share?role=EDITOR&token=n8hz2lZ9MI0uNUVNgeB1zg&utm_content=DACoLEbbwxQ&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton api data once again
         //when fidgeting around with the tabs. PLEASE DO NOT REMOVE <3
         Log.e("stat", "inside");
         if(api_stat.getWrappers().isEmpty()) {

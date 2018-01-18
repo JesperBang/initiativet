@@ -45,7 +45,7 @@ public class CommentMade implements Comparable {
     @Override
     public int compareTo(@NonNull Object o) {
 
-        //"hh:mm - dd/MM/yyyy"
+        //"HH:mm - dd/MM/yyyy"
         String thisDate = this.getDate();
         CommentMade that = (CommentMade) o;
         String thatDate = that.getDate();

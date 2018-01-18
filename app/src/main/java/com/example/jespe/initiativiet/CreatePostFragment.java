@@ -96,9 +96,11 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
     private void addInitialDataToFirebase() {
         try {
             if (textfield.getText().toString().length() < 10) {
+                SubmitBtn.setEnabled(true);
                 snackbar = Snackbar.make(create_activity, "Post is too short! ", Snackbar.LENGTH_SHORT);
                 snackbar.show();
             } else if (subject.getText().toString().contains("Title")) {
+                SubmitBtn.setEnabled(true);
                 snackbar = Snackbar.make(create_activity, "Change Title of post! ", Snackbar.LENGTH_SHORT);
                 snackbar.show();
             } else {
@@ -151,7 +153,7 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
         FE.setType(Type);
         FE.setTagName(Tag);
         Date time = Calendar.getInstance().getTime();
-        DateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("HH:mm - dd/MM/yyyy");
         String currentTime = formatter.format(time);
         FE.setDateModified(currentTime);
         FE.setDateCreated(currentTime);
@@ -174,9 +176,6 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 addInitialDataToFirebase();
-
-                //startActivity(new Intent(CreatePostActivity.this,ForumActivity.class));
-                //finish();
                 break;
         }
     }

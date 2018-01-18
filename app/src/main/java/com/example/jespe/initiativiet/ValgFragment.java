@@ -50,37 +50,41 @@ public class ValgFragment extends Fragment{
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
         View v = i.inflate(R.layout.fragment_valg, container, false);
 
+        Log.e("valg frag ", "on view created");
         System.out.println("crash collection enabled: "+FirebaseCrash.isCrashCollectionEnabled());
 
         // get the listview
         expListView = (ExpandableListView) v.findViewById(R.id.lvExp);
 
-        //Fetch and update list with data from API
-            api.fetchData(new Runnable() {
-                    @Override
-                    public void run() {
-                        ValgFragment.this.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                listDataHeader.addAll(api.getApiLovHeader());
-
-                                // preparing list data
-                                prepareListData();
-
-                                //Creating adapter
-                                listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
-
-                                // setting list adapter
-                                expListView.setAdapter(listAdapter);
-                            }
-                        });
-                    }
-                });
-
         return v;
     }
 
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {}
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("valg frag", "on resume");
+        //Fetch and update list with data from API
+        api.fetchData(new Runnable() {
+            @Override
+            public void run() {
+                ValgFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listDataHeader.addAll(api.getApiLovHeader());
+
+                        // preparing list data
+                        prepareListData();
+
+                        //Creating adapter
+                        listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+
+                        // setting list adapter
+                        expListView.setAdapter(listAdapter);
+                    }
+                });
+            }
+        });
+    }
 
     private void prepareListData() {
         for (int i = 0; i < api.getApiLovHeader().size(); i++){
